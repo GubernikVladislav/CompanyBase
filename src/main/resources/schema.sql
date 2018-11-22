@@ -7,3 +7,34 @@ CREATE TABLE IF NOT EXISTS Company(
     address VARCHAR(255) NOT NULL, phone VARCHAR(255),
     is_active VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS OFFICE(
+    org_id INTEGER NOT NULL,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255),
+    phone VARCHAR(255),
+    is_active VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS USER(
+    office_id INTEGER NOT NULL,
+    id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    middle_name VARCHAR(255),
+    position VARCHAR(255) NOT NULL,
+    phone VARCHAR(255),
+    doc_name INTEGER NOT NULL,
+    doc_number INTEGER NOT NULL,
+    doc_date DATE NOT NULL,
+    citizenship_name VARCHAR(255),
+    citizenship_code INTEGER,
+    is_indetified VARCHAR(50)
+    );
+
+CREATE INDEX IX_OFFICE_ORG_ID ON OFFICE(org_id);
+ALTER TABLE OFFICE ADD FOREIGN KEY (org_id) REFERENCES COMPANY(id);
+
+CREATE INDEX IX_USER_OFFICE_ID ON USER(office_id);
+ALTER TABLE USER ADD FOREIGN KEY (office_id) REFERENCES USER(id);

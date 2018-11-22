@@ -1,4 +1,4 @@
-package ru.gubernik.CompanyBase;
+package ru.gubernik.company;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
