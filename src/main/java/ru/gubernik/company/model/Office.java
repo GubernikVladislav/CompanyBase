@@ -1,31 +1,31 @@
 package ru.gubernik.company.model;
 
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Column;
+import javax.persistence.GenerationType;
 import javax.persistence.Version;
-import java.util.List;
+import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 
-//@Entity
+@Entity
 public class Office {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    private Long id;
+    private Integer id;
 
     @Version
     private Integer version;
 
-    @Column(name = "com_id", nullable = false)
-    private Long comId;
-
-    @Column(length = 30, nullable = false)
+    @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(length = 255, nullable = false)
+    @Column(nullable = false, length = 255)
     private String address;
 
     @Column(length = 20)
@@ -34,23 +34,26 @@ public class Office {
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    /**
-     * TO DO: Описать связь с таблицей работников
-     */
-    private List<User> users;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "org_id", nullable = false)
+    private Organization organization;
 
     /**
-     * Констркутор для Hibernate
+     * Конструктор для Hibernate
      */
     public Office(){
 
     }
 
+    public Office(Integer orgId, String name, String address){
+        this.name = name;
+        this.address = address;
+    }
     /**
      * Геттеры и Сеттеры
      * @return
      */
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -86,11 +89,11 @@ public class Office {
         isActive = active;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public Organization getOrganization() {
+        return organization;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 }

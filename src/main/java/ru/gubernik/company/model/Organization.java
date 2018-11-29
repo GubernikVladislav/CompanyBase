@@ -1,62 +1,67 @@
 package ru.gubernik.company.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Version;
+import javax.persistence.*;
 import java.util.List;
 
-//@Entity
-public class Company {
+@Entity
+public class Organization {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Long id;
+    @Column(nullable = false)
+    private Integer id;
 
     @Version
     private Integer version;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "full_name", length = 50)
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     @Column(nullable = false)
-    private Integer inn;
+    private String inn;
 
     @Column(nullable = false)
-    private Integer kpp;
+    private String kpp;
 
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false)
     private String address;
 
-    @Column(length = 20)
+    @Column
     private String phone;
 
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
-    /**
-     * TO DO: Описать связь с таблицей office
-     */
+    @OneToMany(
+            mappedBy = "organization",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Office> offices;
 
     /**
      * Конструктор для Hibernate
      */
-    public Company(){
+    public Organization(){
 
+    }
+
+    public Organization(String name, String fullName, String inn, String kpp, String address){
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
     }
 
     /**
      * Геттеры и Сеттеры
      * @return
      */
-    public Long getId(){
+    public Integer getId() {
         return id;
     }
 
@@ -76,19 +81,19 @@ public class Company {
         this.fullName = fullName;
     }
 
-    public Integer getInn() {
+    public String getInn() {
         return inn;
     }
 
-    public void setInn(Integer inn) {
+    public void setInn(String inn) {
         this.inn = inn;
     }
 
-    public Integer getKpp() {
+    public String getKpp() {
         return kpp;
     }
 
-    public void setKpp(Integer kpp) {
+    public void setKpp(String kpp) {
         this.kpp = kpp;
     }
 
@@ -114,5 +119,13 @@ public class Company {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public List<Office> getOffices() {
+        return offices;
+    }
+
+    public void setOffices(List<Office> offices) {
+        this.offices = offices;
     }
 }
