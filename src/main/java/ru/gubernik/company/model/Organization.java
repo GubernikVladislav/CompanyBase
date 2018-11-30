@@ -3,7 +3,7 @@ package ru.gubernik.company.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+//@Entity
 public class Organization {
 
     @Id

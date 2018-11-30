@@ -11,7 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 
-@Entity
+//@Entity
 public class Office {
 
     @Id
