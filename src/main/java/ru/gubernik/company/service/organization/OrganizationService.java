@@ -1,29 +1,38 @@
 package ru.gubernik.company.service.organization;
 
 import ru.gubernik.company.view.organization.OrganizationView;
-import ru.gubernik.company.view.ResponseView;
+import ru.gubernik.company.view.ResultView;
 
 import java.util.List;
 
+/**
+ * Сервис
+ */
 public interface OrganizationService {
 
     /**
      * Добавить новую организацию
+     * @param organizationView
+     * @return {"result":"success"}
      */
-    ResponseView add(OrganizationView organizationView);
+    ResultView add(OrganizationView organizationView);
 
     /**
      * Получить организацию
+     * @param id идентификатор организации
+     * @return organizationView
      */
-    OrganizationView get();
+    OrganizationView get(int id);
 
     /**
      * Обновить организацию
+     * @param organizationView
+     * @return {"result":"success"}
      */
-    ResponseView update(OrganizationView organizationView);
+    ResultView update(OrganizationView organizationView);
 
     /**
      * Получить список организаций
-     */
+     * @return List список всех организаций     */
     List<OrganizationView> organizations();
 }

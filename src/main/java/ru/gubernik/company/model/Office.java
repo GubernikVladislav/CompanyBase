@@ -11,29 +11,53 @@ import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
 
-//@Entity
+/**
+ * Оффис
+ */
+@Entity
 public class Office {
 
+    /**
+     * Уникальный идентификатор
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
 
+    /**
+     * Служебное поле Hibernate
+     */
     @Version
     private Integer version;
 
+    /**
+     * Наименование офиса
+     */
     @Column(nullable = false, length = 30)
     private String name;
 
+    /**
+     * Адресс
+     */
     @Column(nullable = false, length = 255)
     private String address;
 
+    /**
+     * Телефон
+     */
     @Column(length = 20)
     private String phone;
 
+    /**
+     * Статус офиса
+     */
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
+    /**
+     * Связь с таблицей организаций
+     */
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "org_id", nullable = false)
     private Organization organization;
@@ -45,14 +69,17 @@ public class Office {
 
     }
 
+    /**
+     * Конструктор для добавления оффиса, все поля NOT NULL
+     * @param orgId идентификатор организации
+     * @param name наименование оффиса
+     * @param address адресс
+     */
     public Office(Integer orgId, String name, String address){
         this.name = name;
         this.address = address;
     }
-    /**
-     * Геттеры и Сеттеры
-     * @return
-     */
+
     public Integer getId() {
         return id;
     }

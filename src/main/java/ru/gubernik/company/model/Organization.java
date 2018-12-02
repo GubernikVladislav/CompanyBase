@@ -1,40 +1,80 @@
 package ru.gubernik.company.model;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import java.util.List;
 
-//@Entity
+/**
+ * Организация
+ */
+@Entity
 public class Organization {
 
+    /**
+     * Уникальный идентификатор
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Integer id;
 
+    /**
+     * Служебное поле Hibernate
+     */
     @Version
     private Integer version;
 
+    /**
+     * Наименование организации
+     */
     @Column(nullable = false)
     private String name;
 
+    /**
+     * Полное наименование организации
+     */
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    /**
+     * ИНН организации
+     */
     @Column(nullable = false)
     private String inn;
 
+    /**
+     * КПП организации
+     */
     @Column(nullable = false)
     private String kpp;
 
+    /**
+     * Адресс
+     */
     @Column(nullable = false)
     private String address;
 
+    /**
+     * Телефон
+     */
     @Column
     private String phone;
 
+    /**
+     * Состоянии организации
+     */
     @Column(name = "is_active", nullable = false)
     private boolean isActive;
 
+    /**
+     * Связь с таблицей оффисов
+     */
     @OneToMany(
             mappedBy = "organization",
             cascade = CascadeType.ALL,
@@ -49,6 +89,14 @@ public class Organization {
 
     }
 
+    /**
+     * Конструктор для добавления организации, все поля NOT NULL
+     * @param name наименование
+     * @param fullName полное наименование
+     * @param inn ИНН
+     * @param kpp КПП
+     * @param address адресс
+     */
     public Organization(String name, String fullName, String inn, String kpp, String address){
         this.name = name;
         this.fullName = fullName;
@@ -57,10 +105,6 @@ public class Organization {
         this.address = address;
     }
 
-    /**
-     * Геттеры и Сеттеры
-     * @return
-     */
     public Integer getId() {
         return id;
     }
