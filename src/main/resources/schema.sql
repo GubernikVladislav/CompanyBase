@@ -1,55 +1,56 @@
 CREATE TABLE IF NOT EXISTS Organization(
-  id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  version INTEGER NOT NULL,                                                                                                          name VARCHAR(30) UNIQUE NOT NULL,
-  full_name VARCHAR(50) UNIQUE NOT NULL,
-  inn VARCHAR(12) UNIQUE NOT NULL,
-  kpp VARCHAR(9) UNIQUE NOT NULL,
-  address VARCHAR(255) NOT NULL,
-  phone VARCHAR(20),
-  is_active BOOLEAN
-  );
+                                         id INTEGER COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT NOT NULL ,
+                                         version INTEGER NOT NULL COMMENT 'Служебное поле Hibernate',
+                                         name VARCHAR(30) UNIQUE NOT NULL COMMENT 'Наименование организации',
+                                         full_name VARCHAR(50) UNIQUE NOT NULL COMMENT 'Полное наименование организации',
+                                         inn VARCHAR(12) UNIQUE NOT NULL COMMENT 'ИНН',
+                                         kpp VARCHAR(9) UNIQUE NOT NULL COMMENT 'КПП',
+                                         address VARCHAR(255) NOT NULL COMMENT 'Адресс',
+                                         phone VARCHAR(20) COMMENT 'Телефон',
+                                         is_active BOOLEAN COMMENT 'Состояние организации'
+);
 
 CREATE TABLE IF NOT EXISTS Office(
-  id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  version INTEGER NOT NULL,
-  org_id INTEGER NOT NULL,
-  name VARCHAR(30) UNIQUE NOT NULL,
-  address VARCHAR(255) NOT NULL,
-  phone VARCHAR(20),
-  is_active BOOLEAN
-  );
+                                   id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'Уникальный идентификатор',
+                                   version INTEGER NOT NULL COMMENT 'Служебное поле Hibernate',
+                                   org_id INTEGER NOT NULL COMMENT 'Идентификатор организации',
+                                   name VARCHAR(30) UNIQUE NOT NULL COMMENT 'Наименование офиса',
+                                   address VARCHAR(255) NOT NULL COMMENT 'Адресс',
+                                   phone VARCHAR(20) COMMENT 'Телефон',
+                                   is_active BOOLEAN COMMENT 'Состояние офиса'
+);
 
 CREATE TABLE IF NOT EXISTS User(
-  id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  version INTEGER NOT NULL,
-  office_id INTEGER NOT NULL,
-  first_name VARCHAR(50) NOT NULL,
-  second_name VARCHAR(50) NOT NULL,
-  middle_name VARCHAR(50),
-  position VARCHAR(50) NOT NULL,
-  citizenship_id INTEGER ,
-  is_identified BOOLEAN
-  );
+                                 id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'Уникальный идентификатор',
+                                 version INTEGER NOT NULL COMMENT 'Сдужебное поле Hibernate',
+                                 office_id INTEGER NOT NULL COMMENT 'Идентификатор оффиса',
+                                 first_name VARCHAR(50) NOT NULL COMMENT 'Имя',
+                                 last_name VARCHAR(50) NOT NULL COMMENT 'Фамилия',
+                                 middle_name VARCHAR(50) COMMENT 'Отчество',
+                                 position VARCHAR(50) NOT NULL COMMENT 'Должность',
+                                 document_id INTEGER NOT NULL COMMENT 'Идентификатор документа',
+                                 citizenship_id INTEGER COMMENT 'Идентификатор гражданства',
+                                 is_identified BOOLEAN COMMENT 'Статус сотрудника'
+);
 
 CREATE TABLE IF NOT EXISTS Doc_type(
-  id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  code VARCHAR(2) NOT NULL,
-  name VARCHAR(255) NOT NULL
-  );
+                                     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'Уникальный идентификатор',
+                                     code VARCHAR(2) NOT NULL COMMENT 'Код документа',
+                                     name VARCHAR(255) NOT NULL COMMENT 'Наименование документа'
+);
 
 CREATE TABLE IF NOT EXISTS Document(
-  id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-  user_id INTEGER NOT NULL,
-  doc_type INTEGER NOT NULL,
-  doc_number VARCHAR(20) NOT NULL,
-  doc_date DATE
-  );
+                                     id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'Уникальный идентификатор',
+                                     type INTEGER NOT NULL COMMENT 'Идентификатор документа',
+                                     number VARCHAR(20) NOT NULL COMMENT 'Номер документа',
+                                     doc_date DATE COMMENT 'Дата документа'
+);
 
-CREATE TABLE IF NOT EXISTS Citizenship(
-  id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL ,
-  code VARCHAR(3),
-  name VARCHAR(255) NOT NULL
-  );
+CREATE TABLE IF NOT EXISTS Country(
+                                    id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL COMMENT 'Идентификатор',
+                                    code VARCHAR(3) NOT NULL COMMENT 'Код страны',
+                                    name VARCHAR(255) NOT NULL COMMENT 'Название страны'
+);
 
 CREATE INDEX IX_OFFICE_ORG_ID ON OFFICE(ORG_ID);
 ALTER TABLE OFFICE ADD FOREIGN KEY (ORG_ID) REFERENCES ORGANIZATION(ID);
@@ -57,11 +58,12 @@ ALTER TABLE OFFICE ADD FOREIGN KEY (ORG_ID) REFERENCES ORGANIZATION(ID);
 CREATE INDEX IX_USER_OFFICE_ID ON USER(OFFICE_ID);
 ALTER TABLE USER ADD FOREIGN KEY (OFFICE_ID) REFERENCES OFFICE(ID);
 
-CREATE INDEX IX_USER_CITIZENSHIP_ID ON USER(CITIZENSHIP_ID);
-ALTER TABLE USER ADD FOREIGN KEY (CITIZENSHIP_ID) REFERENCES CITIZENSHIP(ID);
+CREATE INDEX IX_USER_COUNTRY_ID ON USER(CITIZENSHIP_ID);
+ALTER TABLE USER ADD FOREIGN KEY (CITIZENSHIP_ID) REFERENCES Country(ID);
 
-CREATE INDEX IX_DOCUMENT_DOC_TYPE ON DOCUMENT(DOC_TYPE);
-ALTER TABLE DOCUMENT ADD FOREIGN KEY (DOC_TYPE) REFERENCES DOC_TYPE(ID);
+CREATE INDEX IX_DOCUMENT_DOC_TYPE ON DOCUMENT(TYPE);
+ALTER TABLE DOCUMENT ADD FOREIGN KEY (TYPE) REFERENCES DOC_TYPE(ID);
 
-CREATE INDEX IX_DOCUMENT_USER_ID ON DOCUMENT(USER_ID);
-ALTER TABLE DOCUMENT ADD FOREIGN KEY (USER_ID) REFERENCES USER(ID);
+CREATE INDEX IX_USER_DOCUMENT_ID ON USER(DOCUMENT_ID);
+ALTER TABLE USER ADD FOREIGN KEY (DOCUMENT_ID) REFERENCES DOCUMENT(ID);
+
