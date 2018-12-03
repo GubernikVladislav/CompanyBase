@@ -1,6 +1,7 @@
 package ru.gubernik.company.dao.organization;
 
 
+import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Organization;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Реализация интерфейса OrganizationDao
  */
+@Repository
 public class OrganizationDaoImpl implements OrganizationDao {
 
     private final EntityManager entityManager;

@@ -1,5 +1,6 @@
 package ru.gubernik.company.dao.organization;
 
+import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Organization;
 
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 /**
  * DAO для работы с Organization
  */
+@Repository
 public interface OrganizationDao {
 
     /**
