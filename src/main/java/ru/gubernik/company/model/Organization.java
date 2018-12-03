@@ -3,6 +3,7 @@ package ru.gubernik.company.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -75,10 +76,12 @@ public class Organization {
     /**
      * Связь с таблицей оффисов
      */
+
     @OneToMany(
             mappedBy = "organization",
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
     )
     private List<Office> offices;
 

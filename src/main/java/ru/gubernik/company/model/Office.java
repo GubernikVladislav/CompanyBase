@@ -6,10 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Version;
-import javax.persistence.OneToMany;
 import javax.persistence.JoinColumn;
-import javax.persistence.FetchType;
 
 /**
  * Оффис
@@ -58,7 +57,7 @@ public class Office {
     /**
      * Связь с таблицей организаций
      */
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "org_id", nullable = false)
     private Organization organization;
 
@@ -71,11 +70,10 @@ public class Office {
 
     /**
      * Конструктор для добавления оффиса, все поля NOT NULL
-     * @param orgId идентификатор организации
      * @param name наименование оффиса
      * @param address адресс
      */
-    public Office(Integer orgId, String name, String address){
+    public Office(String name, String address){
         this.name = name;
         this.address = address;
     }
