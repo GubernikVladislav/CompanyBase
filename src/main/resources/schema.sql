@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS Organization(
     phone       VARCHAR(20)           COMMENT 'Телефон',
     is_active   BOOLEAN               COMMENT 'Состояние организации'
 );
+COMMENT ON TABLE Organization IS 'Организация';
 
 CREATE TABLE IF NOT EXISTS Office(
     id        INTEGER               COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT,
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS Office(
     phone     VARCHAR(20)           COMMENT 'Телефон',
     is_active BOOLEAN               COMMENT 'Состояние офиса'
 );
+COMMENT ON TABLE Office IS 'Оффис';
 
 CREATE TABLE IF NOT EXISTS User(
     id             INTEGER              COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
@@ -32,12 +34,14 @@ CREATE TABLE IF NOT EXISTS User(
     citizenship_id INTEGER              COMMENT 'Идентификатор гражданства',
     is_identified  BOOLEAN              COMMENT 'Статус сотрудника'
 );
+COMMENT ON TABLE User IS 'Пользователь';
 
 CREATE TABLE IF NOT EXISTS Doc_type(
     id   INTEGER               COMMENT 'Уникальный идентификатор' PRIMARY KEY AUTO_INCREMENT ,
     code VARCHAR(2)   NOT NULL COMMENT 'Код документа',
     name VARCHAR(255) NOT NULL COMMENT 'Наименование документа'
 );
+COMMENT ON TABLE Doc_type IS 'Тип документа';
 
 CREATE TABLE IF NOT EXISTS Document(
     id          INTEGER              COMMENT 'Уникальный идентификатор'  PRIMARY KEY AUTO_INCREMENT,
@@ -45,12 +49,14 @@ CREATE TABLE IF NOT EXISTS Document(
     number      VARCHAR(20) NOT NULL COMMENT 'Номер документа',
     doc_date    DATE                 COMMENT 'Дата документа'
 );
+COMMENT ON TABLE Document IS 'Документ';
 
 CREATE TABLE IF NOT EXISTS Country(
     id   INTEGER               COMMENT 'Идентификатор' PRIMARY KEY AUTO_INCREMENT ,
     code VARCHAR(3)   NOT NULL COMMENT 'Код страны',
     name VARCHAR(255) NOT NULL COMMENT 'Название страны'
 );
+COMMENT ON TABLE Country IS 'Страна';
 
 CREATE INDEX IX_OFFICE_ORG_ID ON OFFICE(ORG_ID);
 ALTER TABLE OFFICE ADD FOREIGN KEY (ORG_ID) REFERENCES ORGANIZATION(ID);
