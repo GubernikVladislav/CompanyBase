@@ -6,7 +6,7 @@ import ru.gubernik.company.view.ResultView;
 import java.util.List;
 
 /**
- * Сервис
+ * Сервис организации
  */
 public interface OrganizationService {
 
@@ -33,6 +33,7 @@ public interface OrganizationService {
 
     /**
      * Получить список организаций
-     * @return List список всех организаций     */
+     * @return List список всех организаций
+     */
     List<OrganizationView> organizations();
 }

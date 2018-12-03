@@ -15,6 +15,9 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+/**
+ * Контроллер организации
+ */
 @RestController
 @RequestMapping(value = "/organization", produces = APPLICATION_JSON_VALUE)
 public class OrganizationController {
@@ -48,7 +51,7 @@ public class OrganizationController {
     /**
      * Обновить организацию
      * @param organizationView принимает обьект, считанный из HTTP запроса
-     * @return Созвращает результат выполнения {"result":"success"} если выполнено обновление
+     * @return Возвращает результат выполнения {"result":"success"} если выполнено обновление
      */
     @RequestMapping(value = "/update", method = {POST})
     public ResultView update(@RequestBody OrganizationView organizationView){
@@ -58,7 +61,7 @@ public class OrganizationController {
     /**
      * Добавить новую организацию
      * @param organizationView принимает обьект, считанный из HTTP запроса
-     * @return Созвращает результат выполнения {"result":"success"} если выполнено добавление
+     * @return Возвращает результат выполнения {"result":"success"} если выполнено добавление
      */
     @RequestMapping(value = "/save", method = {POST})
     public ResultView save(@RequestBody OrganizationView organizationView){
