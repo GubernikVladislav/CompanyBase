@@ -3,7 +3,7 @@ package ru.gubernik.company.service.organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gubernik.company.dao.organization.OrganizationDao;
-import ru.gubernik.company.mapper.MapperFacadeImpl;
+import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Organization;
 import ru.gubernik.company.view.organization.OrganizationView;
 import ru.gubernik.company.view.ResultView;
@@ -17,10 +17,10 @@ import java.util.List;
 public class OrganizationServiceImpl implements OrganizationService {
 
     private final OrganizationDao organizationDao;
-    private final MapperFacadeImpl mapperFacade;
+    private final MapperFacade mapperFacade;
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationDao organizationDao, MapperFacadeImpl mapperFacade) {
+    public OrganizationServiceImpl(OrganizationDao organizationDao, MapperFacade mapperFacade) {
         this.organizationDao = organizationDao;
         this.mapperFacade = mapperFacade;
     }
@@ -31,15 +31,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public ResultView add(OrganizationView view) {
 
-        Organization organization =
-                new Organization(
-                        view.name,
-                        view.fullName,
-                        view.inn,
-                        view.kpp,
-                        view.address);
-
-        organizationDao.save(organization);
+        organizationDao.save(mapperFacade.map(view, Organization.class));
 
         return new ResultView();
     }
@@ -48,7 +40,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * {@inheritDoc}
      */
     @Override
-    public OrganizationView get(int id) {
+    public OrganizationView get(Integer id) {
 
         Organization organization = organizationDao.loadById(id);
 

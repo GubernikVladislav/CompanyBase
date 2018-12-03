@@ -22,7 +22,7 @@ public interface OrganizationService {
      * @param id идентификатор организации
      * @return organizationView
      */
-    OrganizationView get(int id);
+    OrganizationView get(Integer id);
 
     /**
      * Обновить организацию
