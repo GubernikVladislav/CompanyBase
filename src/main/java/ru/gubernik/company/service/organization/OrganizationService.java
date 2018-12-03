@@ -26,10 +26,10 @@ public interface OrganizationService {
 
     /**
      * Обновить организацию
-     * @param organizationView
+     * @param view
      * @return {"result":"success"}
      */
-    ResultView update(OrganizationView organizationView);
+    ResultView update(OrganizationView view);
 
     /**
      * Получить список организаций
