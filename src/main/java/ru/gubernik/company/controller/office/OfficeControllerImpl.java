@@ -32,9 +32,9 @@ public class OfficeControllerImpl implements OfficeController {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/list/{id:[\\d]+}", method = {POST})
-    public List<OfficeView> offices(@PathVariable Integer id) {
-        return officeService.offices(id);
+    @RequestMapping(value = "/list/{org_id:[\\d]+}", method = {POST})
+    public List<OfficeView> offices(@PathVariable Integer org_id) {
+        return officeService.offices(org_id);
     }
 
     /**

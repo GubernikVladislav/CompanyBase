@@ -22,10 +22,10 @@ public interface OfficeController {
 
     /**
      * Получение оффиса по идентификатору
-     * @param id идентификатор оффиса
+     * @param org_id идентификатор оффиса
      * @return возвращает представление оффиса
      */
-    OfficeView get(@PathVariable("id") Integer id);
+    OfficeView get(@PathVariable("org_id") Integer org_id);
 
     /**
      * Обновление оффиса
