@@ -34,49 +34,48 @@ public class Organization {
     /**
      * Наименование организации
      */
-    @Column(nullable = false)
+    @Column(nullable = false, length = 30, unique = true)
     private String name;
 
     /**
      * Полное наименование организации
      */
-    @Column(name = "full_name", nullable = false)
+    @Column(name = "full_name", nullable = false, length = 50, unique = true)
     private String fullName;
 
     /**
      * ИНН организации
      */
-    @Column(nullable = false)
+    @Column(nullable = false, length = 12, unique = true)
     private String inn;
 
     /**
      * КПП организации
      */
-    @Column(nullable = false)
+    @Column(nullable = false, length = 9, unique = true)
     private String kpp;
 
     /**
      * Адресс
      */
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String address;
 
     /**
      * Телефон
      */
-    @Column
+    @Column(length = 20)
     private String phone;
 
     /**
      * Состоянии организации
      */
-    @Column(name = "is_active", nullable = false)
+    @Column(name = "is_active")
     private boolean isActive;
 
     /**
      * Связь с таблицей оффисов
      */
-
     @OneToMany(
             mappedBy = "organization",
             cascade = CascadeType.ALL,

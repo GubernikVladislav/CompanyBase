@@ -33,7 +33,7 @@ public class Office {
     /**
      * Наименование офиса
      */
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 30, unique = true)
     private String name;
 
     /**
@@ -51,8 +51,8 @@ public class Office {
     /**
      * Статус офиса
      */
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    @Column(name = "is_active")
+    private Boolean isActive;
 
     /**
      * Связь с таблицей организаций
@@ -73,7 +73,7 @@ public class Office {
      * @param name наименование оффиса
      * @param address адресс
      */
-    public Office(String name, String address){
+    public Office( String name, String address){
         this.name = name;
         this.address = address;
     }
@@ -106,7 +106,7 @@ public class Office {
         this.phone = phone;
     }
 
-    public boolean isActive() {
+    public Boolean isActive() {
         return isActive;
     }
 
