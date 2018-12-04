@@ -33,7 +33,7 @@ public class OfficeControllerImpl implements OfficeController {
      */
     @Override
     @RequestMapping(value = "/list/{org_id:[\\d]+}", method = {POST})
-    public List<OfficeView> offices(@PathVariable Integer org_id) {
+    public List<OfficeView> offices(@PathVariable("org_id") Integer org_id) {
         return officeService.offices(org_id);
     }
 

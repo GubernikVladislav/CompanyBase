@@ -42,7 +42,7 @@ public class UserControllerImpl implements UserController {
      */
     @Override
     @RequestMapping(value = "/{id:[\\d]+}", method = {GET})
-    public UserView get(@PathVariable Integer id) {
+    public UserView get(@PathVariable("id") Integer id) {
         return userService.get(id);
     }
 
