@@ -17,5 +17,13 @@ public interface MapperFacade {
      */
     <O, T> T map(O object, Class<T> target);
 
+    /**
+     * Преобразование списка обьектов к заданному классу
+     * @param list список объектов
+     * @param target класс, к которому приводятся объекты
+     * @param <L> тип объектов списка list
+     * @param <T> тип объектов target
+     * @return возарвщает список объектов типа target
+     */
     <L, T> List<T> mapAsList(Iterable<L> list, Class<T> target);
 }

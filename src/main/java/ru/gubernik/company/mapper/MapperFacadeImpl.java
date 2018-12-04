@@ -27,6 +27,9 @@ public class MapperFacadeImpl implements MapperFacade {
         return mapperFactory.getMapperFacade().map(object, target);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public <L, T> List<T> mapAsList(Iterable<L> list, Class<T> target) {
         return mapperFactory.getMapperFacade().mapAsList(list, target);
