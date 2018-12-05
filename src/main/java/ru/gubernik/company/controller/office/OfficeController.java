@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import ru.gubernik.company.view.ResultView;
 import ru.gubernik.company.view.office.OfficeView;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -15,29 +17,29 @@ public interface OfficeController {
 
     /**
      * Получение списка оффисов организации
-     * @param id идентификатор организации
+     * @param orgId идентификатор организации
      * @return возвращает List список оффисов
      */
-    List<OfficeView> offices(@PathVariable("id") Integer id);
+    List<OfficeView> offices(@Min(1) @NotNull @PathVariable("org_id") Integer orgId);
 
     /**
      * Получение оффиса по идентификатору
-     * @param org_id идентификатор оффиса
+     * @param orgId идентификатор оффиса
      * @return возвращает представление оффиса
      */
-    OfficeView get(@PathVariable("org_id") Integer org_id);
+    OfficeView get(@Min(1) @NotNull @PathVariable("org_id") Integer orgId);
 
     /**
      * Обновление оффиса
      * @param view принимает объект считанный из HTTP запроса
      * @return возвращает результат {"result":"success"} если произведенно обновление
      */
-    ResultView update(@RequestBody OfficeView view);
+    ResultView update(@NotNull @RequestBody OfficeView view);
 
     /**
      * Добавление оффиса
      * @param view принимает объект считанный из HTTP запроса
      * @return возвращает результат {"result":"success"} если произведенно обновление
      */
-    ResultView save(@RequestBody OfficeView view);
+    ResultView save(@NotNull @RequestBody OfficeView view);
 }

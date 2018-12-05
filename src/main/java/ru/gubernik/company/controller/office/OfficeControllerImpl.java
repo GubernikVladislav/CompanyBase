@@ -3,6 +3,7 @@ package ru.gubernik.company.controller.office;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.office.OfficeService;
@@ -45,9 +46,9 @@ public class OfficeControllerImpl implements OfficeController {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/{id:[\\d]+}", method = {GET})
-    public OfficeView get(@Min(1) @NotNull @PathVariable Integer id) {
-        return officeService.get(id);
+    @RequestMapping(value = "/{org_id:[\\d]+}", method = {GET})
+    public OfficeView get(@Min(1) @NotNull @PathVariable("org_id") Integer orgId) {
+        return officeService.get(orgId);
     }
 
     /**
@@ -55,7 +56,7 @@ public class OfficeControllerImpl implements OfficeController {
      */
     @Override
     @RequestMapping(value = "/update", method = {POST})
-    public ResultView update(@NotNull OfficeView view) {
+    public ResultView update(@NotNull @RequestBody OfficeView view) {
         return officeService.update(view);
     }
 
@@ -64,7 +65,7 @@ public class OfficeControllerImpl implements OfficeController {
      */
     @Override
     @RequestMapping(value = "/save", method = {POST})
-    public ResultView save(@NotNull OfficeView view) {
+    public ResultView save(@NotNull @RequestBody OfficeView view) {
         return officeService.add(view);
     }
 }

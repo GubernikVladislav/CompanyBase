@@ -1,10 +1,10 @@
 package ru.gubernik.company.controller.organization;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.gubernik.company.view.ResultView;
 import ru.gubernik.company.view.organization.OrganizationView;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 
@@ -21,22 +21,22 @@ public interface OrganizationController {
 
     /**
      * Получить организацию по id
-     * @param org_id принимаемое значение - идентификатор организации (id)
+     * @param orgId принимаемое значение - идентификатор организации (id)
      * @return OrganizationView Возвращает организацию
      */
-    OrganizationView get(@PathVariable("id") Integer org_id);
+    OrganizationView get(@Min(1) Integer orgId);
 
     /**
      * Обновить организацию
      * @param organizationView принимает обьект, считанный из HTTP запроса
      * @return Возвращает результат выполнения {"result":"success"} если выполнено обновление
      */
-    ResultView update(@RequestBody OrganizationView organizationView);
+    ResultView update(@NotNull OrganizationView organizationView);
 
     /**
      * Добавить новую организацию
      * @param organizationView принимает обьект, считанный из HTTP запроса
      * @return Возвращает результат выполнения {"result":"success"} если выполнено добавление
      */
-    ResultView save(@RequestBody OrganizationView organizationView);
+    ResultView save(@NotNull OrganizationView organizationView);
 }
