@@ -61,6 +61,7 @@ public class OrganizationView {
     /**
      * Состояние организации
      */
+    @NotNull(message = "is_active cannot be null")
     public Boolean isActive;
 
     /**

@@ -5,10 +5,10 @@ package ru.gubernik.company.view;
  */
 public class ResultView {
 
-    String result;
+    private final String RESULT = "success";
 
     @Override
     public String toString(){
-        return result = "succes";
+        return "{result:" + RESULT + "}";
     }
 }
