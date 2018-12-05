@@ -54,7 +54,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public ResultView update(OrganizationView organizationView) {
 
         Organization organization = mapperFacade.map(organizationView, Organization.class);
-        organizationDao.updateById(organization.getId(), organization);
+        organizationDao.update(organization);
 
         return new ResultView();
     }

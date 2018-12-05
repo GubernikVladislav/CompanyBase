@@ -39,7 +39,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
      * {@inheritDoc}
      */
     @Override
-    public void updateById(Integer id, Organization organization) {
+    public void update(Organization organization) {
 
     }
 

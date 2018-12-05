@@ -26,10 +26,9 @@ public interface OrganizationDao {
 
     /**
      * Обновление организации по id
-     * @param id идентификатор организации
      * @param organization обновленная организация
      */
-    void updateById(Integer id, Organization organization);
+    void update(Organization organization);
 
     /**
      * Добавление организации
