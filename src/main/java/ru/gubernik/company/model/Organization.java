@@ -71,7 +71,7 @@ public class Organization {
      * Состоянии организации
      */
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     /**
      * Связь с таблицей оффисов

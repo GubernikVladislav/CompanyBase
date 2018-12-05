@@ -5,35 +5,33 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
- * Модель документа
+ * Модель страны
  */
 @Entity
-@Table(name = "Doc_type")
-public class Document {
+public class Country {
 
     /**
-     * Уникальный идентификатор
+     * Идентификатор
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * Код документа
+     * Код страны
      */
-    @Column(name = "code")
+    @Column(length = 3, nullable = false)
     private String code;
 
     /**
-     * Наименование документа
+     * Название страны
      */
-    @Column(name = "name")
+    @Column(length = 255, nullable = false)
     private String name;
 
-    Document(){
+    public Country(){
 
     }
 
