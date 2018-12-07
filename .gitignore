@@ -45,6 +45,7 @@ bin/
 #
 *.iml
 mvnw.*
+*.idea
 #
 ## Directory-based project format:
 .idea/
