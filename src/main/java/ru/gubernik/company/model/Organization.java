@@ -99,16 +99,22 @@ public class Organization {
      * @param kpp КПП
      * @param address адресс
      */
-    public Organization(String name, String fullName, String inn, String kpp, String address){
+    public Organization(Integer id,String name, String fullName, String inn, String kpp, String address, Boolean isActive){
+        this.id = id;
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;
         this.kpp = kpp;
         this.address = address;
+        this.isActive = isActive;
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -159,11 +165,11 @@ public class Organization {
         this.phone = phone;
     }
 
-    public boolean isActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 

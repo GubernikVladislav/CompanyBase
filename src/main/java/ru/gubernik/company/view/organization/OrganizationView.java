@@ -32,16 +32,16 @@ public class OrganizationView {
     /**
      * ИНН организации
      */
-    @Max(12)
-    @Min(12)
+    @Size(max = 12)
+    @Size(min = 12)
     @NotNull(message = "inn cannot be null")
     public String inn;
 
     /**
      * КПП организации
      */
-    @Max(9)
-    @Min(9)
+    @Size(max = 9)
+    @Size(min = 9)
     @NotNull(message = "kpp cannot be null")
     public String kpp;
 
@@ -55,13 +55,12 @@ public class OrganizationView {
     /**
      * Телефон организации
      */
-    @Max(20)
+    @Size(max = 20)
     public String phone;
 
     /**
      * Состояние организации
      */
-    @NotNull(message = "is_active cannot be null")
     public Boolean isActive;
 
     /**

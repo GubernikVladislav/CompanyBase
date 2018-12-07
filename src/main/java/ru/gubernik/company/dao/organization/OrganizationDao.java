@@ -2,6 +2,7 @@ package ru.gubernik.company.dao.organization;
 
 import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Organization;
+import ru.gubernik.company.view.ResultView;
 
 import java.util.List;
 
@@ -28,11 +29,11 @@ public interface OrganizationDao {
      * Обновление организации по id
      * @param organization обновленная организация
      */
-    void update(Organization organization);
+    ResultView update(Organization organization);
 
     /**
      * Добавление организации
      * @param organization организация
      */
-    void save(Organization organization);
+    ResultView save(Organization organization);
 }

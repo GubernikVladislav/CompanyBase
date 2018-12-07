@@ -1,24 +1,29 @@
 package ru.gubernik.company.dao.organization;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Organization;
+import ru.gubernik.company.view.ResultView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
 /**
- * Реализация интерфейса OrganizationDao
+ * {@inheritDoc}
  */
 @Repository
 public class OrganizationDaoImpl implements OrganizationDao {
 
     private final EntityManager entityManager;
 
+    @Autowired
     public OrganizationDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -50,15 +55,40 @@ public class OrganizationDaoImpl implements OrganizationDao {
      * {@inheritDoc}
      */
     @Override
-    public void update(Organization organization) {
+    public ResultView update(Organization organization) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaUpdate<Organization> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(Organization.class);
+        Root<Organization> root = criteriaUpdate.from(Organization.class);
 
+        criteriaUpdate.set("name", organization.getName());
+        criteriaUpdate.set("fullName", organization.getFullName());
+        criteriaUpdate.set("inn", organization.getInn());
+        criteriaUpdate.set("kpp", organization.getKpp());
+        criteriaUpdate.set("address", organization.getAddress());
+        if(organization.getPhone() != null) {
+            criteriaUpdate.set("phone", organization.getPhone());
+        }
+        if(organization.getIsActive() != null) {
+            criteriaUpdate.set("isActive", organization.getIsActive());
+        }
+
+        Predicate predicate = criteriaBuilder.equal(
+                root.get("id"), organization.getId());
+
+        criteriaUpdate.where(predicate);
+
+        entityManager.createQuery(criteriaUpdate).executeUpdate();
+
+        return new ResultView();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void save(Organization organization) {
+    public ResultView save(Organization organization) {
         entityManager.persist(organization);
+
+        return new ResultView();
     }
 }
