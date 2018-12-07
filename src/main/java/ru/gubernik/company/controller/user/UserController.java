@@ -1,7 +1,8 @@
 package ru.gubernik.company.controller.user;
 
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.user.UserView;
 
 import java.util.List;
@@ -16,14 +17,14 @@ public interface UserController {
      * @param view - параметр считанный из HTTP запроса
      * @return список пользователей
      */
-    List<UserView> users(@RequestBody UserView view);
+    DataView users(@RequestBody UserView view);
 
     /**
      * Получить пользователя по идентификатору
      * @param id - идентификатор пользователя
      * @return пользователя
      */
-    UserView get(Integer id);
+    DataView get(Integer id);
 
     /**
      * Обновить пользователя

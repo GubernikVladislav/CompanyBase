@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.country.CountryService;
 import ru.gubernik.company.view.country.CountryView;
+import ru.gubernik.company.view.source.DataView;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class CountryControllerImpl implements CountryController {
      */
     @Override
     @RequestMapping(value = "/countries", method = {POST})
-    public List<CountryView> countries() {
+    public DataView countries() {
         return countryService.countries();
     }
 }

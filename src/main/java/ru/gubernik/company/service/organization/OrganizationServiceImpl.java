@@ -6,8 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.gubernik.company.dao.organization.OrganizationDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Organization;
+import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.organization.OrganizationView;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.ResultView;
 
 import java.util.List;
 
@@ -42,11 +43,11 @@ public class OrganizationServiceImpl implements OrganizationService {
      * {@inheritDoc}
      */
     @Override
-    public OrganizationView get(Integer id) {
+    public DataView get(Integer id) {
 
         Organization organization = organizationDao.loadById(id);
 
-        return mapperFacade.map(organization, OrganizationView.class);
+        return new DataView<OrganizationView>(mapperFacade.map(organization, OrganizationView.class));
     }
 
     /**
@@ -66,7 +67,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * {@inheritDoc}
      */
     @Override
-    public List<OrganizationView> organizations() {
-        return mapperFacade.mapAsList(organizationDao.all(), OrganizationView.class);
+    public DataView organizations() {
+        return new DataView<List<OrganizationView>>(mapperFacade.mapAsList(organizationDao.all(), OrganizationView.class));
     }
 }

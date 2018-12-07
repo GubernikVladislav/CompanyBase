@@ -4,7 +4,7 @@ package ru.gubernik.company.dao.organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Organization;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.ResultView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;

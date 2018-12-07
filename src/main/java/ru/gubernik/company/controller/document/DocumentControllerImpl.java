@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.document.DocumentService;
 import ru.gubernik.company.view.document.DocumentView;
+import ru.gubernik.company.view.source.DataView;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class DocumentControllerImpl implements DocumentController {
      */
     @Override
     @RequestMapping(value = "/docs", method = {POST})
-    public List<DocumentView> docs() {
+    public DataView docs() {
         return documentService.docs();
     }
 }

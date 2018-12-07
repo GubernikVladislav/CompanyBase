@@ -1,6 +1,7 @@
 package ru.gubernik.company.controller.organization;
 
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.organization.OrganizationView;
 
 import javax.validation.constraints.Min;
@@ -17,14 +18,14 @@ public interface OrganizationController {
      * Получить список всех организаций
      * @return List список организаций
      */
-    List<OrganizationView> organizations();
+    DataView organizations();
 
     /**
      * Получить организацию по id
      * @param orgId принимаемое значение - идентификатор организации (id)
      * @return OrganizationView Возвращает организацию
      */
-    OrganizationView get(@Min(1) Integer orgId);
+    DataView get(@Min(1) Integer orgId);
 
     /**
      * Обновить организацию

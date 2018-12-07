@@ -2,7 +2,7 @@ package ru.gubernik.company.controller;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.gubernik.company.view.ErrorView;
+import ru.gubernik.company.view.source.ErrorView;
 
 /**
  * Контроллер для обработки исключений

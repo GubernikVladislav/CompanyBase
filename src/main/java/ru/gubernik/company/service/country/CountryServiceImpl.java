@@ -5,9 +5,13 @@ import org.springframework.stereotype.Service;
 import ru.gubernik.company.dao.country.CountryDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.view.country.CountryView;
+import ru.gubernik.company.view.source.DataView;
 
 import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 @Service
 public class CountryServiceImpl implements CountryService {
 
@@ -20,8 +24,12 @@ public class CountryServiceImpl implements CountryService {
         this.mapperFacade = mapperFacade;
     }
 
+    /**
+     * {@inheritDoc}
+     * @return
+     */
     @Override
-    public List<CountryView> countries() {
-        return mapperFacade.mapAsList(countryDao.countries(), CountryView.class);
+    public DataView countries() {
+        return new DataView<List<CountryView>>(mapperFacade.mapAsList(countryDao.countries(), CountryView.class));
     }
 }

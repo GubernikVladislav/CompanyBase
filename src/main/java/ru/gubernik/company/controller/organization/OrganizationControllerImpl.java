@@ -7,8 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.organization.OrganizationService;
+import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.organization.OrganizationView;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.ResultView;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -38,7 +39,7 @@ public class OrganizationControllerImpl implements OrganizationController {
      */
     @Override
     @RequestMapping(value = "/list", method = {POST})
-    public List<OrganizationView> organizations(){
+    public DataView organizations(){
         return organizationService.organizations();
     }
 
@@ -47,7 +48,7 @@ public class OrganizationControllerImpl implements OrganizationController {
      */
     @Override
     @RequestMapping(value = "/{id:[\\d]+}", method = {GET})
-    public OrganizationView get(@PathVariable("id") @Min(1) Integer id){
+    public DataView get(@PathVariable("id") @Min(1) Integer id){
         return organizationService.get(id);
     }
 

@@ -1,4 +1,4 @@
-package ru.gubernik.company.view;
+package ru.gubernik.company.view.source;
 
 /**
  * Представление сообщения результата

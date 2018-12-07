@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.gubernik.company.dao.office.OfficeDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Office;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.office.OfficeView;
 
 import java.util.List;
@@ -49,22 +50,22 @@ public class OfficeServiceImpl implements OfficeService {
      * {@inheritDoc}
      */
     @Override
-    public OfficeView get(Integer id) {
+    public DataView get(Integer id) {
 
         Office office = officeDao.get(id);
         OfficeView view = mapperFacade.map(office, OfficeView.class);
-        return view;
+        return new DataView<OfficeView>(view);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<OfficeView> offices(Integer id) {
+    public DataView offices(Integer id) {
 
         List<Office> offices = officeDao.offices(id);
         List<OfficeView> views = mapperFacade.mapAsList(offices, OfficeView.class);
 
-        return views;
+        return new DataView<List<OfficeView>>(views);
     }
 }

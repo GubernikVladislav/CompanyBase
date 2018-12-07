@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.gubernik.company.dao.user.UserDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.User;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.user.UserView;
 
 import java.util.List;
@@ -29,20 +30,20 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public List<UserView> users(UserView view) {
+    public DataView users(UserView view) {
 
         User user = mapperFacade.map(view, User.class);
         List<User> users = userDao.users(user);
         List<UserView> views = mapperFacade.mapAsList(users, UserView.class);
-        return views;
+        return new DataView<List<UserView>>(views);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public UserView get(Integer id) {
-        return mapperFacade.map(userDao.get(id), UserView.class);
+    public DataView get(Integer id) {
+        return new DataView<UserView>(mapperFacade.map(userDao.get(id), UserView.class));
     }
 
     /**

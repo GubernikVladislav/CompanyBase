@@ -2,7 +2,7 @@ package ru.gubernik.company.dao.office;
 
 import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Office;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.ResultView;
 
 import java.util.List;
 

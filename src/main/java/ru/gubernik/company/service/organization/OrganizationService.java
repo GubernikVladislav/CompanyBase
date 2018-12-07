@@ -1,8 +1,9 @@
 package ru.gubernik.company.service.organization;
 
 import org.springframework.validation.annotation.Validated;
+import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.organization.OrganizationView;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.ResultView;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -26,7 +27,7 @@ public interface OrganizationService {
      * @param id идентификатор организации
      * @return organizationView
      */
-    OrganizationView get(@Min(1) Integer id);
+    DataView get(@Min(1) Integer id);
 
     /**
      * Обновить организацию
@@ -39,5 +40,5 @@ public interface OrganizationService {
      * Получить список организаций
      * @return List список всех организаций
      */
-    List<OrganizationView> organizations();
+    DataView organizations();
 }

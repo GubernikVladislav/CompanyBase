@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.office.OfficeService;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.office.OfficeView;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -38,7 +38,7 @@ public class OfficeControllerImpl implements OfficeController {
      */
     @Override
     @RequestMapping(value = "/list/{org_id:[\\d]+}", method = {POST})
-    public List<OfficeView> offices(@Min(1) @NotNull @PathVariable("org_id") Integer orgId) {
+    public DataView offices(@Min(1) @NotNull @PathVariable("org_id") Integer orgId) {
         return officeService.offices(orgId);
     }
 
@@ -47,7 +47,7 @@ public class OfficeControllerImpl implements OfficeController {
      */
     @Override
     @RequestMapping(value = "/{org_id:[\\d]+}", method = {GET})
-    public OfficeView get(@Min(1) @NotNull @PathVariable("org_id") Integer orgId) {
+    public DataView get(@Min(1) @NotNull @PathVariable("org_id") Integer orgId) {
         return officeService.get(orgId);
     }
 

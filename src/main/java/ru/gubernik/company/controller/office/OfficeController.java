@@ -2,7 +2,8 @@ package ru.gubernik.company.controller.office;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.office.OfficeView;
 
 import javax.validation.constraints.Min;
@@ -20,14 +21,14 @@ public interface OfficeController {
      * @param orgId идентификатор организации
      * @return возвращает List список оффисов
      */
-    List<OfficeView> offices(@Min(1) @NotNull @PathVariable("org_id") Integer orgId);
+    DataView offices(@Min(1) @NotNull @PathVariable("org_id") Integer orgId);
 
     /**
      * Получение оффиса по идентификатору
      * @param orgId идентификатор оффиса
      * @return возвращает представление оффиса
      */
-    OfficeView get(@Min(1) @NotNull @PathVariable("org_id") Integer orgId);
+    DataView get(@Min(1) @NotNull @PathVariable("org_id") Integer orgId);
 
     /**
      * Обновление оффиса

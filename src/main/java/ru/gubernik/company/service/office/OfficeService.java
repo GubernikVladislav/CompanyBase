@@ -1,6 +1,7 @@
 package ru.gubernik.company.service.office;
 
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.office.OfficeView;
 
 import java.util.List;
@@ -26,12 +27,12 @@ public interface OfficeService {
      * @param id идентификатор оффиса
      * @return возвращает представление оффиса
      */
-    OfficeView get(Integer id);
+    DataView get(Integer id);
 
     /**
      * Получить список оффисов по идентификатору организации
      * @param id идентификатор организации
      * @return возвращает список List оффисов
      */
-    List<OfficeView> offices(Integer id);
+    DataView offices(Integer id);
 }

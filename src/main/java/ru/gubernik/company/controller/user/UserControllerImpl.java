@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.user.UserService;
-import ru.gubernik.company.view.ResultView;
+import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.user.UserView;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class UserControllerImpl implements UserController {
      */
     @Override
     @RequestMapping(value = "/list", method = {POST})
-    public List<UserView> users(UserView view) {
+    public DataView users(UserView view) {
         return userService.users(view);
     }
 
@@ -42,7 +43,7 @@ public class UserControllerImpl implements UserController {
      */
     @Override
     @RequestMapping(value = "/{id:[\\d]+}", method = {GET})
-    public UserView get(@PathVariable("id") Integer id) {
+    public DataView get(@PathVariable("id") Integer id) {
         return userService.get(id);
     }
 

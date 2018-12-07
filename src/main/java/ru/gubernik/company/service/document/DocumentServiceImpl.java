@@ -5,6 +5,7 @@ import ru.gubernik.company.dao.document.DocumentDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Document;
 import ru.gubernik.company.view.document.DocumentView;
+import ru.gubernik.company.view.source.DataView;
 
 import java.util.List;
 
@@ -26,10 +27,10 @@ public class DocumentServiceImpl implements DocumentService {
      * {@inheritDoc}
      */
     @Override
-    public List<DocumentView> docs() {
+    public DataView docs() {
 
         List<Document> documents = documentDao.docs();
         List<DocumentView> views = mapperFacade.mapAsList(documents, DocumentView.class);
-        return views;
+        return new DataView<List<DocumentView>>(views);
     }
 }
