@@ -2,6 +2,7 @@ package ru.gubernik.company.service.organization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gubernik.company.dao.organization.OrganizationDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Organization;
@@ -11,7 +12,7 @@ import ru.gubernik.company.view.ResultView;
 import java.util.List;
 
 /**
- * Реализация сервиса OrganizationService
+ * {@inheritDoc}
  */
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
@@ -29,6 +30,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public ResultView add(OrganizationView view) {
 
         organizationDao.save(mapperFacade.map(view, Organization.class));
@@ -51,6 +53,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public ResultView update(OrganizationView organizationView) {
 
         Organization organization = mapperFacade.map(organizationView, Organization.class);
