@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.gubernik.company.dao.organization.OrganizationDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Organization;
+import ru.gubernik.company.view.organization.OrganizationListView;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.organization.OrganizationView;
 import ru.gubernik.company.view.source.ResultView;
@@ -68,6 +69,6 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public DataView organizations() {
-        return new DataView<List<OrganizationView>>(mapperFacade.mapAsList(organizationDao.all(), OrganizationView.class));
+        return new DataView<List<OrganizationListView>>(mapperFacade.mapAsList(organizationDao.all(), OrganizationListView.class));
     }
 }

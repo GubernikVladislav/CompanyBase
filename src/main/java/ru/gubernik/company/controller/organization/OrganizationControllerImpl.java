@@ -13,7 +13,6 @@ import ru.gubernik.company.view.source.ResultView;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
