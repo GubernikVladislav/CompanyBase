@@ -6,43 +6,41 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
- * Модель страны
+ * Модель документа
  */
 @Entity
-public class Country {
+@Table(name = "Doc_type")
+public class DocType {
 
     /**
-     * Идентификатор
+     * Уникальный идентификатор
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * Код страны
+     * Код документа
      */
-    @Column(length = 3, nullable = false)
+    @Column(name = "code")
     private String code;
 
     /**
-     * Название страны
+     * Наименование документа
      */
-    @Column(length = 255, nullable = false)
+    @Column(name = "name")
     private String name;
 
-    /**
-     * Связь с таблицей User
-     */
-    @OneToMany(mappedBy = "country",
-            fetch = FetchType.LAZY)
-    private List<User> users;
+    @OneToMany(mappedBy = "docType",
+                fetch = FetchType.LAZY)
+    private List<Document> documentList;
 
-    public Country(){
+    public DocType(){
 
     }
 
@@ -66,11 +64,11 @@ public class Country {
         this.name = name;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Document> getDocumentList() {
+        return documentList;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
     }
 }

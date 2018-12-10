@@ -3,12 +3,15 @@ package ru.gubernik.company.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import javax.persistence.JoinColumn;
+import java.util.List;
 
 /**
  * Оффис
@@ -60,6 +63,13 @@ public class Office {
     @ManyToOne
     @JoinColumn(name = "org_id", nullable = false)
     private Organization organization;
+
+    @OneToMany(
+            mappedBy = "office",
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<User> userList;
 
     /**
      * Конструктор для Hibernate

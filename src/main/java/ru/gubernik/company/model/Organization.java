@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 import java.util.List;
@@ -73,9 +74,6 @@ public class Organization {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    /**
-     * Связь с таблицей оффисов
-     */
     @OneToMany(
             mappedBy = "organization",
             cascade = CascadeType.ALL,

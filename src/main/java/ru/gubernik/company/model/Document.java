@@ -5,35 +5,62 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
+import java.util.Date;
 
 /**
- * Модель документа
+ * Документ пользователя
  */
 @Entity
-@Table(name = "Doc_type")
+@Table(name = "Document")
 public class Document {
 
     /**
-     * Уникальный идентификатор
+     * Идентификатор
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
-     * Код документа
+     * Служебное поле Hibernate
      */
-    @Column(name = "code")
-    private String code;
+    @Version
+    private Integer version;
 
     /**
-     * Наименование документа
+     * Номер документа
      */
-    @Column(name = "name")
-    private String name;
+    @Column(nullable = false, length = 20)
+    private String number;
 
-    Document(){
+    /**
+     * Дата документа
+     */
+    @Column(name = "doc_date")
+    @Temporal(TemporalType.DATE)
+    private Date docDate;
+
+    /**
+     * Тип документа
+     */
+    @ManyToOne()
+    @JoinColumn(name = "doc_type_id", nullable = false)
+    private DocType docType;
+
+    /**
+     * Пользователь
+     */
+    @OneToOne(mappedBy = "document")
+    private User user;
+
+    public Document(){
 
     }
 
@@ -41,19 +68,35 @@ public class Document {
         return id;
     }
 
-    public String getCode() {
-        return code;
+    public String getNumber() {
+        return number;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public String getName() {
-        return name;
+    public Date getDocDate() {
+        return docDate;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDocDate(Date docDate) {
+        this.docDate = docDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public DocType getDocType() {
+        return docType;
+    }
+
+    public void setDocType(DocType docType) {
+        this.docType = docType;
     }
 }

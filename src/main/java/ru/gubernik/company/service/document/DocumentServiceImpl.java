@@ -3,7 +3,7 @@ package ru.gubernik.company.service.document;
 import org.springframework.stereotype.Service;
 import ru.gubernik.company.dao.document.DocumentDao;
 import ru.gubernik.company.mapper.MapperFacade;
-import ru.gubernik.company.model.Document;
+import ru.gubernik.company.model.DocType;
 import ru.gubernik.company.view.document.DocumentView;
 import ru.gubernik.company.view.source.DataView;
 
@@ -29,8 +29,8 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public DataView docs() {
 
-        List<Document> documents = documentDao.docs();
-        List<DocumentView> views = mapperFacade.mapAsList(documents, DocumentView.class);
+        List<DocType> docTypes = documentDao.docs();
+        List<DocumentView> views = mapperFacade.mapAsList(docTypes, DocumentView.class);
         return new DataView<List<DocumentView>>(views);
     }
 }
