@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS User(
     last_name      VARCHAR(50) NOT NULL COMMENT 'Фамилия',
     middle_name    VARCHAR(50)          COMMENT 'Отчество',
     position       VARCHAR(50) NOT NULL COMMENT 'Должность',
-    document_id    INTEGER     NOT NULL COMMENT 'Идентификатор документа' UNIQUE ,
+    document_id    INTEGER              COMMENT 'Идентификатор документа' UNIQUE ,
     citizenship_id INTEGER              COMMENT 'Идентификатор гражданства',
     is_identified  BOOLEAN              COMMENT 'Статус сотрудника'
 );
@@ -45,6 +45,7 @@ COMMENT ON TABLE Doc_type IS 'Тип документа';
 
 CREATE TABLE IF NOT EXISTS Document(
     id          INTEGER              COMMENT 'Уникальный идентификатор'  PRIMARY KEY AUTO_INCREMENT,
+    version     INTEGER     NOT NULL COMMENT 'Служебное поле Hibernate',
     doc_type_id INTEGER     NOT NULL COMMENT 'Идентификатор документа',
     number      VARCHAR(20) NOT NULL COMMENT 'Номер документа',
     doc_date    DATE                 COMMENT 'Дата документа'
