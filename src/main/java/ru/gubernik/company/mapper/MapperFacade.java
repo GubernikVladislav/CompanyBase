@@ -18,6 +18,14 @@ public interface MapperFacade {
     <O, T> T map(O object, Class<T> target);
 
     /**
+     * Запись параметров из object в target
+     * @param object объект с новыми параметрами
+     * @param target объект в который записываются параметры
+     * @param <O> класс объекта object
+     * @param <T> класс объекта target
+     */
+    <O, T> void map(O object, T target);
+    /**
      * Преобразование списка обьектов к заданному классу
      * @param list список объектов
      * @param target класс, к которому приводятся объекты

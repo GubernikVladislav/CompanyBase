@@ -29,11 +29,11 @@ public interface OrganizationDao {
      * Обновление организации по id
      * @param organization обновленная организация
      */
-    ResultView update(Organization organization);
+    void update(Organization organization);
 
     /**
      * Добавление организации
      * @param organization организация
      */
-    ResultView save(Organization organization);
+    void save(Organization organization);
 }

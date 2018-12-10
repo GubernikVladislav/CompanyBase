@@ -1,3 +1,67 @@
+GET http://localhost:8888/api/organization/
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T103654.404.json
+
+###
+
+GET http://localhost:8888/api/organization/
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T103556.404.json
+
+###
+
+GET http://localhost:8888/api/organization/
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T103356.404.json
+
+###
+
+GET http://localhost:8888/api/organization/
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T102925.404.json
+
+###
+
+GET http://localhost:8888/api/organization/
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T102552.404.json
+
+###
+
+GET http://localhost:8888/api/organization/
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T102133.404.json
+
+###
+
+GET http://localhost:8888/api/organization/
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T101658.404.json
+
+###
+
+POST http://localhost:8888/api/organization/list
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-12-09T094957.200.json
+
+###
+
 POST http://localhost:8888/api/organization/save?name=sber&fullName=berbank&inn=123456789123&kpp=123456789&address=privaet
 Accept: */*
 Cache-Control: no-cache
@@ -343,66 +407,6 @@ Accept: */*
 Cache-Control: no-cache
 
 <> 2018-12-05T111257.200.json
-
-###
-
-POST http://localhost:8888/api/organization/list?id=1&id=1
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-12-05T111222.200.json
-
-###
-
-POST http://localhost:8888/api/organization/list?id=1&id=1
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-12-05T111038.200.json
-
-###
-
-POST http://localhost:8888/api/organization/list?id=1&id=1
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-12-05T110931.200.json
-
-###
-
-POST http://localhost:8888/api/organization/list
-Accept: */*
-Cache-Control: no-cache
-
-###
-
-POST http://localhost:8888/api/organization/list
-Accept: */*
-Cache-Control: no-cache
-
-###
-
-POST http://localhost:8888/api/organization/list?id=1&id=1
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-12-05T110603.500.json
-
-###
-
-POST http://localhost:8888/api/organization/list
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-12-05T110452.500.json
-
-###
-
-POST http://localhost:8888/api/docs?id=1&id=1
-Accept: */*
-Cache-Control: no-cache
-
-<> 2018-12-05T074510.200.json
 
 ###
 

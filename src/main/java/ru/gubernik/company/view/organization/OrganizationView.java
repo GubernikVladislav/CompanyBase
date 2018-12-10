@@ -1,7 +1,5 @@
 package ru.gubernik.company.view.organization;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -77,5 +75,9 @@ public class OrganizationView {
                 ";address:" + address +
                 ";phone:" + phone +
                 ";is_active:" + isActive + "}";
+    }
+
+    public Integer getId(){
+        return id;
     }
 }

@@ -99,8 +99,7 @@ public class Organization {
      * @param kpp КПП
      * @param address адресс
      */
-    public Organization(Integer id,String name, String fullName, String inn, String kpp, String address, Boolean isActive){
-        this.id = id;
+    public Organization(String name, String fullName, String inn, String kpp, String address, Boolean isActive){
         this.name = name;
         this.fullName = fullName;
         this.inn = inn;
@@ -111,10 +110,6 @@ public class Organization {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
