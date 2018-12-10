@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.gubernik.company.dao.office.OfficeDao;
+import ru.gubernik.company.dao.organization.OrganizationDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Office;
+import ru.gubernik.company.model.Organization;
 import ru.gubernik.company.view.office.OfficeListRequestView;
 import ru.gubernik.company.view.office.OfficeListView;
 import ru.gubernik.company.view.office.OfficeView;
@@ -22,11 +24,13 @@ public class OfficeServiceImpl implements OfficeService {
 
     private final MapperFacade mapperFacade;
     private final OfficeDao officeDao;
+    private final OrganizationDao organizationDao;
 
     @Autowired
-    public OfficeServiceImpl(MapperFacade mapperFacade, OfficeDao officeDao) {
+    public OfficeServiceImpl(MapperFacade mapperFacade, OfficeDao officeDao, OrganizationDao organizationDao) {
         this.mapperFacade = mapperFacade;
         this.officeDao = officeDao;
+        this.organizationDao = organizationDao;
     }
 
     /**
@@ -36,7 +40,10 @@ public class OfficeServiceImpl implements OfficeService {
     @Transactional
     public ResultView add(OfficeView view) {
 
-        officeDao.save(mapperFacade.map(view, Office.class));
+        Organization organization = organizationDao.loadById(view.orgId);
+        Office office = mapperFacade.map(view, Office.class);
+        office.setOrganization(organization);
+        officeDao.save(office);
         return new ResultView();
     }
 

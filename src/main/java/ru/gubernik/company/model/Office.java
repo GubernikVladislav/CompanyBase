@@ -122,4 +122,8 @@ public class Office {
         this.organization = organization;
     }
 
+    public Integer getOrgId(){
+        return organization.getId();
+    }
+
 }

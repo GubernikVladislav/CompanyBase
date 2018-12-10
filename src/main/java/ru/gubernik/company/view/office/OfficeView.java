@@ -12,6 +12,8 @@ public class OfficeView {
      * Идентификатор оффиса
      */
     public Integer id;
+
+    public Integer orgId;
     /**
      * Наименование оффиса
      */
@@ -43,4 +45,5 @@ public class OfficeView {
                 ";is_active:" + isActive +
                 "}";
     }
+
 }
