@@ -1,6 +1,7 @@
 package ru.gubernik.company.dao.office;
 
 import ru.gubernik.company.model.Office;
+import ru.gubernik.company.view.office.OfficeListRequestView;
 import ru.gubernik.company.view.source.ResultView;
 
 import java.util.List;
@@ -11,11 +12,11 @@ import java.util.List;
 public interface OfficeDao {
 
     /**
-     * Получение списка оффисов по идентификатору организации
-     * @param id идентификатор организации
+     * Получение списка оффисов по передаваемым параметрам
+     * @param office объект с параметрами поиска организации
      * @return список оффисов
      */
-    List<Office> offices(Integer id);
+    List<Office> offices(OfficeListRequestView office);
 
     /**
      * Получить оффис по идентификатору
@@ -27,14 +28,12 @@ public interface OfficeDao {
     /**
      * Обновить оффис по заданным параметрам
      * @param view - объект содержащий обновленные параметры
-     * @return {"result":"success"}
      */
-    ResultView update(Office view);
+    void update(Office view);
 
     /**
      * Добавить оффис по заданным параметрам
      * @param view - объект содержащий параметры добавляемого оффиса
-     * @return {"result":"success"}
      */
-    ResultView save(Office view);
+    void save(Office view);
 }

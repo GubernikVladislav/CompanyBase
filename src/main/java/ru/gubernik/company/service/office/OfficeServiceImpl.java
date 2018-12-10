@@ -2,12 +2,15 @@ package ru.gubernik.company.service.office;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gubernik.company.dao.office.OfficeDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.Office;
+import ru.gubernik.company.view.office.OfficeListRequestView;
+import ru.gubernik.company.view.office.OfficeListView;
+import ru.gubernik.company.view.office.OfficeView;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
-import ru.gubernik.company.view.office.OfficeView;
 
 import java.util.List;
 
@@ -30,6 +33,7 @@ public class OfficeServiceImpl implements OfficeService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public ResultView add(OfficeView view) {
 
         officeDao.save(mapperFacade.map(view, Office.class));
@@ -40,9 +44,12 @@ public class OfficeServiceImpl implements OfficeService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public ResultView update(OfficeView view) {
 
-        officeDao.update(mapperFacade.map(view, Office.class));
+        Office office = officeDao.get(view.id);
+        mapperFacade.map(view, office);
+        officeDao.update(office);
         return new ResultView();
     }
 
@@ -61,11 +68,8 @@ public class OfficeServiceImpl implements OfficeService {
      * {@inheritDoc}
      */
     @Override
-    public DataView offices(Integer id) {
+    public DataView offices(OfficeListRequestView view) {
 
-        List<Office> offices = officeDao.offices(id);
-        List<OfficeView> views = mapperFacade.mapAsList(offices, OfficeView.class);
-
-        return new DataView<List<OfficeView>>(views);
+        return new DataView<List<OfficeListView>>(mapperFacade.mapAsList(officeDao.offices(view), OfficeListView.class));
     }
 }

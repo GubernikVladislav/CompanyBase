@@ -106,11 +106,11 @@ public class Office {
         this.phone = phone;
     }
 
-    public Boolean isActive() {
+    public Boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 
@@ -121,4 +121,5 @@ public class Office {
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
 }

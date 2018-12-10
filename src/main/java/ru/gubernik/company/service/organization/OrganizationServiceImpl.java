@@ -71,6 +71,7 @@ public class OrganizationServiceImpl implements OrganizationService {
      */
     @Override
     public DataView organizations() {
-        return new DataView<List<OrganizationListView>>(mapperFacade.mapAsList(organizationDao.all(), OrganizationListView.class));
+        return new DataView<List<OrganizationListView>>(mapperFacade.mapAsList(organizationDao.all(),
+                                                                        OrganizationListView.class));
     }
 }

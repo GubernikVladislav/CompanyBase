@@ -1,5 +1,6 @@
 package ru.gubernik.company.service.office;
 
+import ru.gubernik.company.view.office.OfficeListRequestView;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.office.OfficeView;
@@ -30,9 +31,9 @@ public interface OfficeService {
     DataView get(Integer id);
 
     /**
-     * Получить список оффисов по идентификатору организации
-     * @param id идентификатор организации
+     * Получить список оффисов по заданым параметрам
+     * @param view объект с параметрами фильтра
      * @return возвращает список List оффисов
      */
-    DataView offices(Integer id);
+    DataView offices(OfficeListRequestView view);
 }

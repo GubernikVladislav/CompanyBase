@@ -3,17 +3,15 @@ package ru.gubernik.company.view.office;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Представление офиса
+ */
 public class OfficeView {
 
     /**
      * Идентификатор оффиса
      */
     public Integer id;
-    /**
-     * Идентификатор организации
-     */
-    @NotNull(message = "org_id cannot be null")
-    public Integer orgId;
     /**
      * Наименование оффиса
      */
@@ -39,7 +37,6 @@ public class OfficeView {
     @Override
     public String toString(){
         return "{id:" + id +
-                ";org_id:" + orgId +
                 ";name:" + name +
                 ";address:" + address +
                 ";phone:" + phone +

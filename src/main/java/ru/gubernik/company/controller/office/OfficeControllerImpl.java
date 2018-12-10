@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.office.OfficeService;
+import ru.gubernik.company.view.office.OfficeListRequestView;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.office.OfficeView;
@@ -37,17 +38,17 @@ public class OfficeControllerImpl implements OfficeController {
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/list/{org_id:[\\d]+}", method = {POST})
-    public DataView offices(@Min(1) @NotNull @PathVariable("org_id") Integer orgId) {
-        return officeService.offices(orgId);
+    @RequestMapping(value = "/list", method = {POST})
+    public DataView offices(@RequestBody OfficeListRequestView requestView) {
+       return officeService.offices(requestView);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    @RequestMapping(value = "/{org_id:[\\d]+}", method = {GET})
-    public DataView get(@Min(1) @NotNull @PathVariable("org_id") Integer orgId) {
+    @RequestMapping(value = "/{orgId:[\\d]+}", method = {GET})
+    public DataView get(@Min(1) @NotNull @PathVariable("orgId") Integer orgId) {
         return officeService.get(orgId);
     }
 
