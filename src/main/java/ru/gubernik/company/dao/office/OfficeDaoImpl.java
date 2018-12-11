@@ -31,7 +31,7 @@ public class OfficeDaoImpl implements OfficeDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Office> offices(OfficeListRequestView office) {
+    public List<Office> offices(Office office, Integer orgId) {
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Office> criteriaQuery = criteriaBuilder.createQuery(Office.class);
@@ -39,25 +39,26 @@ public class OfficeDaoImpl implements OfficeDao {
         criteriaQuery.select(root);
 
         //Создание предикатов по переданым параметрам
-        Predicate predicate = criteriaBuilder.equal(root.get("organization"), office.orgId);
-        Predicate namePredicate = criteriaBuilder.equal(root.get("name"), office.name);
-        Predicate phonePredicate = criteriaBuilder.equal(root.get("phone"), office.phone);
-        Predicate activePredicate = criteriaBuilder.equal(root.get("isActive"), office.isActive);
+        Predicate predicate = criteriaBuilder.equal(root.get("organization"), orgId);
+        Predicate namePredicate = criteriaBuilder.equal(root.get("name"), office.getName());
+        Predicate phonePredicate = criteriaBuilder.equal(root.get("phone"), office.getPhone());
+        Predicate activePredicate = criteriaBuilder.equal(root.get("isActive"), office.getIsActive());
 
         //Доюавление not null предикатов в запрос
         criteriaQuery.where(predicate);
-        if(office.name != null) {
+        if(office.getName() != null) {
             criteriaQuery.where(namePredicate);
         }
-        if(office.phone != null){
+        if(office.getPhone() != null){
             criteriaQuery.where(phonePredicate);
         }
-        if(office.isActive != null){
+        if(office.getIsActive() != null){
             criteriaQuery.where(activePredicate);
         }
 
         TypedQuery<Office> query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
+
     }
 
     /**

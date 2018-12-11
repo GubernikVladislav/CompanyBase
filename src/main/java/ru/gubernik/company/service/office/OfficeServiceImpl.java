@@ -14,8 +14,6 @@ import ru.gubernik.company.view.office.OfficeView;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
 
-import java.util.List;
-
 /**
  * {@inheritDoc}
  */
@@ -77,6 +75,7 @@ public class OfficeServiceImpl implements OfficeService {
     @Override
     public DataView offices(OfficeListRequestView view) {
 
-        return new DataView<List<OfficeListView>>(mapperFacade.mapAsList(officeDao.offices(view), OfficeListView.class));
+        Office office = mapperFacade.map(view, Office.class);
+        return new DataView<>(mapperFacade.mapAsList(officeDao.offices(office, view.orgId), OfficeListView.class));
     }
 }

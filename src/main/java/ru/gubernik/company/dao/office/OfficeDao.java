@@ -16,7 +16,7 @@ public interface OfficeDao {
      * @param office объект с параметрами поиска организации
      * @return список оффисов
      */
-    List<Office> offices(OfficeListRequestView office);
+    List<Office> offices(Office office, Integer orgId);
 
     /**
      * Получить оффис по идентификатору
