@@ -2,6 +2,7 @@ package ru.gubernik.company.service.user;
 
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
+import ru.gubernik.company.view.user.UserListRequestView;
 import ru.gubernik.company.view.user.UserView;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface UserService {
      * @param view - обьект с параметрами поиска
      * @return список List пользователей по заданным параметрам
      */
-    DataView users(UserView view);
+    DataView users(UserListRequestView view);
 
     /**
      * Получение пользователя по идентификатору

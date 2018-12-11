@@ -2,14 +2,14 @@ package ru.gubernik.company.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.user.UserService;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
+import ru.gubernik.company.view.user.UserListRequestView;
 import ru.gubernik.company.view.user.UserView;
-
-import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -34,7 +34,7 @@ public class UserControllerImpl implements UserController {
      */
     @Override
     @RequestMapping(value = "/list", method = {POST})
-    public DataView users(UserView view) {
+    public DataView users(@RequestBody UserListRequestView view) {
         return userService.users(view);
     }
 

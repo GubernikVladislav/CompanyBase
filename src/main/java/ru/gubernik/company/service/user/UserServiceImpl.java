@@ -7,9 +7,9 @@ import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.User;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
+import ru.gubernik.company.view.user.UserListRequestView;
+import ru.gubernik.company.view.user.UserListView;
 import ru.gubernik.company.view.user.UserView;
-
-import java.util.List;
 
 /**
  * {@inheritDoc}
@@ -30,12 +30,11 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public DataView users(UserView view) {
+    public DataView users(UserListRequestView view) {
 
         User user = mapperFacade.map(view, User.class);
-        List<User> users = userDao.users(user);
-        List<UserView> views = mapperFacade.mapAsList(users, UserView.class);
-        return new DataView<List<UserView>>(views);
+
+        return new DataView<>(mapperFacade.mapAsList(userDao.users(user, view.officeId, view.docCode, view.citizenshipCode), UserListView.class));
     }
 
     /**
