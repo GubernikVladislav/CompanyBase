@@ -61,6 +61,16 @@ public class OrganizationView {
      */
     public Boolean isActive;
 
+    public OrganizationView(Integer id,String test, String test1, String s, String s1, String moscow, boolean b) {
+     name = test;
+     this.id = id;
+     fullName = test1;
+     inn = s;
+     kpp = s1;
+     address = moscow;
+     isActive = b;
+    }
+
     /**
      * Переопределение метода Object.toString()
      * @return возвращает строку в виде JSON
