@@ -17,4 +17,9 @@ public class ErrorView {
     public ErrorView(String errorText){
         error = errorText;
     }
+
+    public ErrorView(){
+
+    }
+
 }
