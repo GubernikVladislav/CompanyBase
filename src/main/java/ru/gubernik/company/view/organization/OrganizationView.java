@@ -1,6 +1,7 @@
 package ru.gubernik.company.view.organization;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -33,6 +34,7 @@ public class OrganizationView {
     @Size(max = 12)
     @Size(min = 12)
     @NotNull(message = "inn cannot be null")
+    @Pattern(regexp = "\\d{12}", message = "inn may contain only numbers")
     public String inn;
 
     /**
@@ -41,6 +43,7 @@ public class OrganizationView {
     @Size(max = 9)
     @Size(min = 9)
     @NotNull(message = "kpp cannot be null")
+    @Pattern(regexp = "\\d{9}", message = "kpp may contain only numbers")
     public String kpp;
 
     /**
@@ -54,6 +57,7 @@ public class OrganizationView {
      * Телефон организации
      */
     @Size(max = 20)
+    @Pattern(regexp = "\\d{20}", message = "phone may contain only numbers")
     public String phone;
 
     /**
@@ -61,14 +65,16 @@ public class OrganizationView {
      */
     public Boolean isActive;
 
-    public OrganizationView(Integer id,String test, String test1, String s, String s1, String moscow, boolean b) {
-     name = test;
-     this.id = id;
-     fullName = test1;
-     inn = s;
-     kpp = s1;
-     address = moscow;
-     isActive = b;
+    public OrganizationView(){
+
+    }
+
+    public OrganizationView(String name, String fullName, String inn, String kpp, String address) {
+     this.name = name;
+     this.fullName = fullName;
+     this.inn = inn;
+     this.kpp = address;
+     this.address = address;
     }
 
     /**
