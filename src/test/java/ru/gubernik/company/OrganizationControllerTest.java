@@ -4,73 +4,97 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import ru.gubernik.company.view.organization.OrganizationView;
 import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.source.ErrorView;
 import ru.gubernik.company.view.source.ResultView;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+
+
 /**
- * Тестирование контролера организации
+ * Проверка контроллера органицзаций
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CompanyBaseApplication.class})
+@DirtiesContext
 @Transactional
 public class OrganizationControllerTest {
 
     RestTemplate restTemplate = new RestTemplate();
+    String url = "http://localhost:8888/api";
 
     /**
-     * Проверка получения списка огранизаций
+     * Проверка на сохранение организации
      */
     @Test
-    public void notNullListTest(){
-        DataView organization = restTemplate.getForObject("http://localhost:8888/api/organization/list", DataView.class);
-        Assert.assertNotNull(organization);
+    public void saveTest(){
+
+        OrganizationView request = new OrganizationView("test", "TestTest", "123456777890", "123456788", "adress");
+
+        ResponseEntity response = restTemplate.postForEntity(url + "/organization/save", request, ResultView.class);
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+
+    }
+
+    /**
+     * Проверка на неправильнное сохранение организации.
+     */
+    @Test
+    public void errorSaveTest() {
+        //Добавление пустой организации
+        OrganizationView request = new OrganizationView();
+        ResponseEntity response = restTemplate.postForEntity(url + "/organization/save", request, ErrorView.class);
+        assertNotNull(response);
+        assertEquals(response.getStatusCodeValue(), 200);
+        ErrorView error = (ErrorView) response.getBody();
+        assertThat(error.error, containsString("cannot be null"));
+
+        //Добавление организации с буквами в ИНН и КПП
+        request = new OrganizationView("test", "TestTest", "123456777u90", "111u11111", "adress");
+        response = restTemplate.postForEntity(url + "/organization/save", request, ErrorView.class);
+        assertNotNull(response);
+        assertEquals(response.getStatusCodeValue(), 200);
+        error = (ErrorView) response.getBody();
+        assertThat(error.error, containsString("only numbers"));
     }
 
     /**
      * Проверка получения организации по идентификатору
      */
     @Test
-    public void notNullGetTest(){
-        DataView organizationView = restTemplate.getForObject("http://localhost:8888/api/organization/1", DataView.class);
-        Assert.assertNotNull(organizationView);
+    public void getTest(){
+
+        ParameterizedTypeReference<DataView<OrganizationView>> reference =
+                new ParameterizedTypeReference<DataView<OrganizationView>>(){};
+
+        ResponseEntity<DataView<OrganizationView>> response = restTemplate.exchange(url + "/organization/1", HttpMethod.GET, null,reference );
+        Assert.assertNotNull(response);
+
+        DataView<OrganizationView> responseData = response.getBody();
+        assertNotNull(responseData);
+        assertThat(responseData.data.id, is(1));
+        assertThat(responseData.data.name, is("Органихация"));
+        assertThat(responseData.data.fullName, is("Тестовая Организация"));
+        assertThat(responseData.data.inn, is("123456789112"));
+        assertThat(responseData.data.kpp, is("123456789"));
+        assertThat(responseData.data.address, is("Москва, ул.Домодедовская, д12б "));
+        assertThat(responseData.data.phone, is("7495999999"));
+        assertThat(responseData.data.isActive, is(true));
+
     }
 
-    /**
-     * Проверка добавления новой организации
-     */
-    @Test
-    public void saveTest(){
-
-        ResultView resultView = restTemplate.postForObject("http://localhost:8888/api/organization/save",
-                "  \"name\":\"ban32\",\n" +
-                        "  \"fullName\":\"ban3bank2\",\n" +
-                        "  \"kpp\":\"111111113\",\n" +
-                        "  \"inn\":\"111111223222\",\n" +
-                        "  \"address\":\"moscow2\",\n" +
-                        "  \"isActive\":false\n" +
-                        "}", ResultView.class);
-        Assert.assertNotNull(resultView);
-    }
-
-    /**
-     * Проверка обновления организации по заданым параметрам
-     */
-    @Test
-    public void updateTest(){
-
-        ResultView resultView = restTemplate.postForObject("http://localhost:8888/api/organization/update","{\n" +
-                "  \"id\":1,\n" +
-                "  \"name\":\"ban32\",\n" +
-                "  \"fullName\":\"ban3bank2\",\n" +
-                "  \"kpp\":\"111111113\",\n" +
-                "  \"inn\":\"111111223222\",\n" +
-                "  \"address\":\"moscow2\",\n" +
-                "  \"isActive\":false\n" +
-                "}", ResultView.class);
-        Assert.assertNotNull(resultView);
-    }
 
 }

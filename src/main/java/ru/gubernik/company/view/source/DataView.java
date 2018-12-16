@@ -9,7 +9,11 @@ public class DataView<T> {
     /**
      * Объект данных
      */
-    public Object data;
+    public T data;
+
+    public DataView(){
+
+    }
 
     public DataView(T object) {
         data = object;
