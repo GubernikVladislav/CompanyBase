@@ -57,7 +57,7 @@ public class OrganizationView {
      * Телефон организации
      */
     @Size(max = 20)
-    @Pattern(regexp = "\\d{20}", message = "phone may contain only numbers")
+    @Pattern(regexp = "\\d{0,20}", message = "phone may contain only numbers")
     public String phone;
 
     /**
@@ -69,12 +69,15 @@ public class OrganizationView {
 
     }
 
-    public OrganizationView(String name, String fullName, String inn, String kpp, String address) {
-     this.name = name;
-     this.fullName = fullName;
-     this.inn = inn;
-     this.kpp = address;
-     this.address = address;
+    public OrganizationView(Integer id, String name, String fullName, String inn, String kpp, String address, String phone, Boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.fullName = fullName;
+        this.inn = inn;
+        this.kpp = kpp;
+        this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
     }
 
     /**
