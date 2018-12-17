@@ -52,7 +52,7 @@ public class UserControllerImpl implements UserController {
      */
     @Override
     @RequestMapping(value = "/update", method = {POST})
-    public ResultView update(UserView view) {
+    public ResultView update(@RequestBody UserView view) {
         return userService.update(view);
     }
 
@@ -61,7 +61,7 @@ public class UserControllerImpl implements UserController {
      */
     @Override
     @RequestMapping(value = "/save", method = {POST})
-    public ResultView save(UserView view) {
+    public ResultView save(@RequestBody UserView view) {
         return userService.save(view);
     }
 }

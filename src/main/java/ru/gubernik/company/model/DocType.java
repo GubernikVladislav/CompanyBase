@@ -1,5 +1,6 @@
 package ru.gubernik.company.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -37,7 +38,8 @@ public class DocType {
     private String docName;
 
     @OneToMany(mappedBy = "docType",
-                fetch = FetchType.LAZY)
+                fetch = FetchType.LAZY,
+    cascade = CascadeType.ALL)
     private List<Document> documentList;
 
     public DocType(){

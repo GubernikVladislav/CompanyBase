@@ -49,7 +49,7 @@ public class User {
     /**
      * Гражданство
      */
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "citizenship_id")
     private Country country;
 

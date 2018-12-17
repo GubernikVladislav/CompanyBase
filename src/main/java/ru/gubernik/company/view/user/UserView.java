@@ -3,6 +3,7 @@ package ru.gubernik.company.view.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ru.gubernik.company.model.Country;
 import ru.gubernik.company.model.Document;
+import ru.gubernik.company.model.Office;
 
 import java.util.Date;
 
@@ -16,6 +17,10 @@ public class UserView {
      */
     public Integer id;
 
+    @JsonIgnore
+    public Office office;
+
+    public Integer officeId;
     /**
      * Имя
      */
@@ -35,17 +40,14 @@ public class UserView {
      * Должность
      */
     public String position;
-
-    /**
-     * Телефон
-     */
-    public String phone;
-
+    
     /**
      * Документ
      */
     @JsonIgnore
     public Document document;
+
+    public String docCode;
 
     /**
      * Название документа

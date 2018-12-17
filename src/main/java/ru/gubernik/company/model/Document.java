@@ -1,5 +1,6 @@
 package ru.gubernik.company.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,14 +51,14 @@ public class Document {
     /**
      * Тип документа
      */
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doc_type_id", nullable = false)
     private DocType docType;
 
     /**
      * Пользователь
      */
-    @OneToOne(mappedBy = "document")
+    @OneToOne(mappedBy = "document", cascade = CascadeType.ALL)
     private User user;
 
     public Document(){

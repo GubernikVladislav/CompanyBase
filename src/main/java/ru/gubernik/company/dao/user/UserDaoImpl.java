@@ -50,7 +50,7 @@ public class UserDaoImpl implements UserDao {
             Join<Document, DocType> typeJoin = docJoin.join("docType");
 
             docQuery.select(typeJoin);
-            docQuery.where(criteriaBuilder.equal(typeJoin.get("code"), docCode));
+            docQuery.where(criteriaBuilder.equal(typeJoin.get("docCode"), docCode));
             criteriaQuery.where(criteriaBuilder.exists(docQuery));
         }
         //Фильтр по гражданству
@@ -102,7 +102,7 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void update(User user) {
-
+        entityManager.merge(user);
     }
 
     /**
@@ -110,6 +110,6 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public void save(User user) {
-
+        entityManager.persist(user);
     }
 }
