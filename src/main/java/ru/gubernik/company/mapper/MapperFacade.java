@@ -46,4 +46,7 @@ public interface MapperFacade {
      */
     UserView userMap(User user, Class<UserView> view);
 
+
+    User userViewMap(UserView view, Class<User> user);
+
 }

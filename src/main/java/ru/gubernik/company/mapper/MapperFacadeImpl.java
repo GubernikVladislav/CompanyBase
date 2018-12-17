@@ -53,11 +53,27 @@ public class MapperFacadeImpl implements MapperFacade {
                 .field("document.docNumber", "docNumber")
                 .field("document.docType.docName", "docName")
                 .field("document.docDate", "docDate")
+                .field("document.docType.docCode", "docCode")
                 .field("country.name", "citizenshipName")
                 .field("country.code", "citizenshipCode")
+                .field("office.id", "officeId")
                 .byDefault()
                 .register();
         return mapperFactory.getMapperFacade().map(user, UserView.class);
+    }
+
+    @Override
+    public User userViewMap(UserView view, Class<User> user) {
+        mapperFactory.classMap(UserView.class, User.class)
+                .field("docNumber", "document.docNumber")
+                .field("docName", "document.docType.docName")
+                .field("docDate", "document.docDate")
+                .field("docCode", "document.docType.docCode")
+                .field("citizenshipCode", "country.code")
+                .field("citizenshipName", "country.name")
+                .byDefault()
+                .register();
+        return mapperFactory.getMapperFacade().map(view, User.class);
     }
 
 
