@@ -28,13 +28,13 @@ public class DocType {
      * Код документа
      */
     @Column(name = "code")
-    private String code;
+    private String docCode;
 
     /**
      * Наименование документа
      */
     @Column(name = "name")
-    private String name;
+    private String docName;
 
     @OneToMany(mappedBy = "docType",
                 fetch = FetchType.LAZY)
@@ -48,20 +48,20 @@ public class DocType {
         return id;
     }
 
-    public String getCode() {
-        return code;
+    public String getDocCode() {
+        return docCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setDocCode(String code) {
+        this.docCode = code;
     }
 
-    public String getName() {
-        return name;
+    public String getDocName() {
+        return docName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDocName(String name) {
+        this.docName = name;
     }
 
     public List<Document> getDocumentList() {

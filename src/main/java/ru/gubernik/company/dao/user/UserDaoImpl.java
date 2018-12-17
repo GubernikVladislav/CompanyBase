@@ -93,7 +93,8 @@ public class UserDaoImpl implements UserDao {
      */
     @Override
     public User get(Integer id) {
-        return null;
+
+        return entityManager.find(User.class, id);
     }
 
     /**

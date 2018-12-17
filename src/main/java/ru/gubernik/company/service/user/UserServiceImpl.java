@@ -1,5 +1,6 @@
 package ru.gubernik.company.service.user;
 
+import ma.glasnost.orika.metadata.ClassMapBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.gubernik.company.dao.user.UserDao;
@@ -42,7 +43,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public DataView get(Integer id) {
-        return new DataView<UserView>(mapperFacade.map(userDao.get(id), UserView.class));
+        User user = userDao.get(id);
+        UserView view = mapperFacade.userMap(user, UserView.class);
+        DataView<UserView> data = new DataView<UserView>(view);
+        return data;
     }
 
     /**

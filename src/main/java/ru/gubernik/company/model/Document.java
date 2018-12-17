@@ -37,8 +37,8 @@ public class Document {
     /**
      * Номер документа
      */
-    @Column(nullable = false, length = 20)
-    private String number;
+    @Column(name = "number", nullable = false, length = 20)
+    private String docNumber;
 
     /**
      * Дата документа
@@ -68,12 +68,12 @@ public class Document {
         return id;
     }
 
-    public String getNumber() {
-        return number;
+    public String getDocNumber() {
+        return docNumber;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setDocNumber(String number) {
+        this.docNumber = number;
     }
 
     public Date getDocDate() {
