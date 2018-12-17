@@ -1,5 +1,8 @@
 package ru.gubernik.company.mapper;
 
+import ru.gubernik.company.model.User;
+import ru.gubernik.company.view.user.UserView;
+
 import java.util.List;
 
 /**
@@ -34,4 +37,13 @@ public interface MapperFacade {
      * @return возарвщает список объектов типа target
      */
     <L, T> List<T> mapAsList(Iterable<L> list, Class<T> target);
+
+    /**
+     * Кастомное преобразование User к UserView
+     * @param user
+     * @param view
+     * @return
+     */
+    UserView userMap(User user, Class<UserView> view);
+
 }
