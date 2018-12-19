@@ -14,7 +14,7 @@ public interface UserDao {
      * @param user объект пользователя
      * @return список пользователей
      */
-    List<User> users(User user, Integer officeId, String docCode, String citizenshipCode);
+    List users(User user, Integer officeId, String docCode, String citizenshipCode);
 
     /**
      * Получение пользователя по идентификатору

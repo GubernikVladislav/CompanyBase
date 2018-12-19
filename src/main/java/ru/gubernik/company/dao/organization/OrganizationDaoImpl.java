@@ -35,9 +35,8 @@ public class OrganizationDaoImpl implements OrganizationDao {
         Root<Organization> organization = criteriaQuery.from(Organization.class);
         criteriaQuery.select(organization);
         TypedQuery<Organization> query = entityManager.createQuery(criteriaQuery);
-        List<Organization> organizations = query.getResultList();
 
-        return organizations;
+        return query.getResultList();
     }
 
     /**

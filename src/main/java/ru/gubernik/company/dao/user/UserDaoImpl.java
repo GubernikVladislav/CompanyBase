@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Country;
 import ru.gubernik.company.model.DocType;
-import ru.gubernik.company.model.Document;
 import ru.gubernik.company.model.User;
 
 import javax.persistence.EntityManager;
@@ -24,6 +23,9 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     private final EntityManager entityManager;
+    private CriteriaBuilder criteriaBuilder;
+    private CriteriaQuery<User> criteriaQuery;
+    private Root<User> root;
 
     @Autowired
     public UserDaoImpl(EntityManager entityManager) {
@@ -36,56 +38,33 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> users(User user, Integer officeId, String docCode, String citizenshipCode) {
 
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(User.class);
-        Root root = criteriaQuery.from(User.class);
+        criteriaBuilder = entityManager.getCriteriaBuilder();
+        criteriaQuery = criteriaBuilder.createQuery(User.class);
+        root = criteriaQuery.from(User.class);
 
         //Фильтр по офису
         criteriaQuery.where(criteriaBuilder.equal(root.get("office"), officeId));
+
         //Фильтр по типу документа
-        if(docCode != null) {
-            Subquery<DocType> docQuery = criteriaQuery.subquery(DocType.class);
-            Root subRoot = docQuery.correlate(root);
-            Join docJoin = subRoot.join("document");
-            Join<Document, DocType> typeJoin = docJoin.join("docType");
+        documentJoin(docCode);
 
-            docQuery.select(typeJoin);
-            docQuery.where(criteriaBuilder.equal(typeJoin.get("docCode"), docCode));
-            criteriaQuery.where(criteriaBuilder.exists(docQuery));
-        }
         //Фильтр по гражданству
-        if(citizenshipCode != null) {
-            Subquery<Country> countrySubQuery = criteriaQuery.subquery(Country.class);
-            Root countryRoot = countrySubQuery.correlate(root);
-            Join countryJoin = countryRoot.join("country");
+        countryJoin(citizenshipCode);
 
-            countrySubQuery.select(countryJoin);
-            countrySubQuery.where(criteriaBuilder.equal(countryJoin.get("code"), citizenshipCode));
-            criteriaQuery.where(criteriaBuilder.exists(countrySubQuery));
-        }
         //Фильтр по имени
-        if(user.getFirstName() != null) {
-            Predicate firstNamePredicate = criteriaBuilder.equal(root.get("firstName"), user.getFirstName());
-            criteriaQuery.where(firstNamePredicate);
-        }
+        addNotNullPredicate("firstName", user.getFirstName());
+
         //Фильтр по фамилии
-        if(user.getLastName() != null){
-            Predicate lastNamePredicate = criteriaBuilder.equal(root.get("lastName"), user.getLastName());
-            criteriaQuery.where(lastNamePredicate);
-        }
+        addNotNullPredicate("lastName", user.getLastName());
+
         //Фильтр по отчеству
-        if(user.getMiddleName() != null){
-            Predicate middleNamePredicate = criteriaBuilder.equal(root.get("middleName"), user.getMiddleName());
-            criteriaQuery.where(middleNamePredicate);
-        }
+        addNotNullPredicate("middleName", user.getMiddleName());
+
         //Фильтр по должности
-        if(user.getPosition() != null){
-            Predicate positionPredicate = criteriaBuilder.equal(root.get("position"), user.getPosition());
-            criteriaQuery.where(positionPredicate);
-        }
-        TypedQuery query = entityManager.createQuery(criteriaQuery);
-        List<User> users = query.getResultList();
-        return users;
+        addNotNullPredicate("position", user.getPosition());
+
+        TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     /**
@@ -111,5 +90,59 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void save(User user) {
         entityManager.persist(user);
+    }
+
+    /**
+     *Выполнение JOIN таблицы справочника стран.
+     * @param citizenshipCode - код гражданства из запроса. Если код null - return
+     */
+    private void countryJoin(String citizenshipCode) {
+
+        if(citizenshipCode == null){
+            return;
+        }
+
+        Subquery<Country> countrySubQuery = criteriaQuery.subquery(Country.class);
+        Root<User> countryRoot = countrySubQuery.correlate(root);
+        Join countryJoin = countryRoot.join("country");
+
+        countrySubQuery.select(countryJoin);
+        countrySubQuery.where(criteriaBuilder.equal(countryJoin.get("code"), citizenshipCode));
+        criteriaQuery.where(criteriaBuilder.exists(countrySubQuery));
+    }
+
+    /**
+     * Выполнение JOIN таблицы документов
+     * @param docCode - код документа из запроса. Если код Null - return
+     */
+    private void documentJoin(String docCode) {
+
+        if(docCode == null){
+            return;
+        }
+
+        Subquery<DocType> docQuery = criteriaQuery.subquery(DocType.class);
+        Root<User> subRoot = docQuery.correlate(root);
+        Join docJoin = subRoot.join("document");
+        Join typeJoin = docJoin.join("docType");
+
+        docQuery.select(typeJoin);
+        docQuery.where(criteriaBuilder.equal(typeJoin.get("docCode"), docCode));
+        criteriaQuery.where(criteriaBuilder.exists(docQuery));
+    }
+
+    /**
+     * Добавление к запросу предиката, если он не null
+     * @param column - атрибут по которому проводится поиск
+     * @param value - значение атрибута. Если null - return
+     */
+    private void addNotNullPredicate(String column, String value){
+
+        if(value == null){
+            return;
+        }
+
+        Predicate predicate = criteriaBuilder.equal(root.get(column), value);
+        criteriaQuery.where(predicate);
     }
 }
