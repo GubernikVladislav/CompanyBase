@@ -30,7 +30,7 @@ public class DocumentServiceImpl implements DocumentService {
     public DataView docs() {
 
         List<DocType> docTypes = documentDao.docs();
-        List<DocumentView> views = mapperFacade.mapAsList(docTypes, DocumentView.class);
+        List<DocumentView> views = mapperFacade.mapDocList(docTypes, DocumentView.class);
         return new DataView<List<DocumentView>>(views);
     }
 }
