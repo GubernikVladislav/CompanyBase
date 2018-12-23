@@ -12,7 +12,10 @@ import ru.gubernik.company.view.source.DataView;
 
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
 
 /**
  * Тестирование контроллера справочника документов
@@ -44,5 +47,14 @@ public class DocumentControllerTest {
 
         DataView<List<DocumentView>> responseData = response.getBody();
         assertNotNull(responseData);
+        assertThat(responseData.data.get(0).code, is("08"));
+        assertThat(responseData.data.get(0).name, is("Временное удостоверение, выданное взамен военного билета"));
+
+        assertThat(responseData.data.get(1).code, is("18"));
+        assertThat(responseData.data.get(1).name, is("Свидетельство о предоставлении временного убежища на территории Российской Федерации"));
+
+        assertThat(responseData.data.get(2).code, is("21"));
+        assertThat(responseData.data.get(2).name, is("Паспорт гражданина Российской Федерации"));
+
     }
 }
