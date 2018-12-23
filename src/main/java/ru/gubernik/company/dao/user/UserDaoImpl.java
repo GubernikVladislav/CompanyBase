@@ -14,6 +14,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class UserDaoImpl implements UserDao {
     private CriteriaBuilder criteriaBuilder;
     private CriteriaQuery<User> criteriaQuery;
     private Root<User> root;
+    private List<Predicate> predicates = new ArrayList<>();
 
     @Autowired
     public UserDaoImpl(EntityManager entityManager) {
@@ -43,7 +45,8 @@ public class UserDaoImpl implements UserDao {
         root = criteriaQuery.from(User.class);
 
         //Фильтр по офису
-        criteriaQuery.where(criteriaBuilder.equal(root.get("office"), officeId));
+        Predicate officePredicate = criteriaBuilder.equal(root.get("office"), officeId);
+        predicates.add(officePredicate);
 
         //Фильтр по типу документа
         documentJoin(docCode);
@@ -62,6 +65,8 @@ public class UserDaoImpl implements UserDao {
 
         //Фильтр по должности
         addNotNullPredicate("position", user.getPosition());
+
+        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 
         TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();
@@ -108,7 +113,9 @@ public class UserDaoImpl implements UserDao {
 
         countrySubQuery.select(countryJoin);
         countrySubQuery.where(criteriaBuilder.equal(countryJoin.get("code"), citizenshipCode));
-        criteriaQuery.where(criteriaBuilder.exists(countrySubQuery));
+
+        Predicate countyPredicate = criteriaBuilder.exists(countrySubQuery);
+        predicates.add(countyPredicate);
     }
 
     /**
@@ -128,7 +135,9 @@ public class UserDaoImpl implements UserDao {
 
         docQuery.select(typeJoin);
         docQuery.where(criteriaBuilder.equal(typeJoin.get("docCode"), docCode));
-        criteriaQuery.where(criteriaBuilder.exists(docQuery));
+
+        Predicate docPredicate = criteriaBuilder.exists(docQuery);
+        predicates.add(docPredicate);
     }
 
     /**
@@ -143,6 +152,6 @@ public class UserDaoImpl implements UserDao {
         }
 
         Predicate predicate = criteriaBuilder.equal(root.get(column), value);
-        criteriaQuery.where(predicate);
+        predicates.add(predicate);
     }
 }
