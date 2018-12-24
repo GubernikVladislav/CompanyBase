@@ -85,6 +85,7 @@ public class UserControllerTest {
         assertNotNull(saveResponse);
 
         saveRequest.id = getId(saveRequest);
+        getTest(saveRequest);
 
         //Обновление добавленного пользователя
         UserView updateRequest =
@@ -100,6 +101,7 @@ public class UserControllerTest {
                 restTemplate.exchange(url + "/update", HttpMethod.POST,updateEntity, ResultView.class);
 
         assertNotNull(response);
+        getTest(updateRequest);
 
     }
 
