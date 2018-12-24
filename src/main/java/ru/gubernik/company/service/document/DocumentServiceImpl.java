@@ -1,7 +1,7 @@
 package ru.gubernik.company.service.document;
 
 import org.springframework.stereotype.Service;
-import ru.gubernik.company.dao.document.DocumentDao;
+import ru.gubernik.company.dao.document.DocTypeDao;
 import ru.gubernik.company.mapper.MapperFacade;
 import ru.gubernik.company.model.DocType;
 import ru.gubernik.company.view.document.DocumentView;
@@ -16,11 +16,11 @@ import java.util.List;
 public class DocumentServiceImpl implements DocumentService {
 
     private final MapperFacade mapperFacade;
-    private final DocumentDao documentDao;
+    private final DocTypeDao docTypeDao;
 
-    public DocumentServiceImpl(MapperFacade mapperFacade, DocumentDao documentDao) {
+    public DocumentServiceImpl(MapperFacade mapperFacade, DocTypeDao docTypeDao) {
         this.mapperFacade = mapperFacade;
-        this.documentDao = documentDao;
+        this.docTypeDao = docTypeDao;
     }
 
     /**
@@ -29,7 +29,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public DataView docs() {
 
-        List<DocType> docTypes = documentDao.docs();
+        List<DocType> docTypes = docTypeDao.docs();
         List<DocumentView> views = mapperFacade.mapDocList(docTypes, DocumentView.class);
         return new DataView<List<DocumentView>>(views);
     }

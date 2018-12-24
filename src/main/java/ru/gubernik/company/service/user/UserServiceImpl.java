@@ -3,9 +3,12 @@ package ru.gubernik.company.service.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.gubernik.company.dao.country.CountryDao;
+import ru.gubernik.company.dao.document.DocTypeDao;
 import ru.gubernik.company.dao.office.OfficeDao;
 import ru.gubernik.company.dao.user.UserDao;
 import ru.gubernik.company.mapper.MapperFacade;
+import ru.gubernik.company.model.Country;
 import ru.gubernik.company.model.Office;
 import ru.gubernik.company.model.User;
 import ru.gubernik.company.view.source.DataView;
@@ -23,18 +26,23 @@ public class UserServiceImpl implements UserService {
     private final MapperFacade mapperFacade;
     private final UserDao userDao;
     private final OfficeDao officeDao;
+    private final CountryDao countryDao;
+    private final DocTypeDao docTypeDao;
 
     @Autowired
-    public UserServiceImpl(MapperFacade mapperFacade, UserDao userDao, OfficeDao officeDao) {
+    public UserServiceImpl(MapperFacade mapperFacade, UserDao userDao, OfficeDao officeDao, CountryDao countryDao, DocTypeDao docTypeDao) {
         this.mapperFacade = mapperFacade;
         this.userDao = userDao;
         this.officeDao = officeDao;
+        this.countryDao = countryDao;
+        this.docTypeDao = docTypeDao;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public DataView users(UserListRequestView view) {
 
         User user = mapperFacade.map(view, User.class);
@@ -46,6 +54,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional
     public DataView get(Integer id) {
         User user = userDao.get(id);
         UserView view = mapperFacade.userMap(user, UserView.class);
@@ -61,11 +70,9 @@ public class UserServiceImpl implements UserService {
     public ResultView update(UserView view) {
 
         User user = userDao.get(view.id);
-        User getUser = mapperFacade.userViewMap(view, User.class);
-        mapperFacade.map(getUser, user);
-        getUser.setOffice(officeDao.get(user.getOffice().getId()));
+        mapperFacade.userViewMap(view, user);
 
-        userDao.update(getUser);
+        userDao.update(user);
         return new ResultView();
     }
 
@@ -77,8 +84,12 @@ public class UserServiceImpl implements UserService {
     public ResultView save(UserView view) {
 
         Office office = officeDao.get(view.officeId);
+        Country country = countryDao.get(view.citizenshipCode);
+
         User user = mapperFacade.userViewMap(view, User.class);
         user.setOffice(office);
+        user.setCountry(country);
+        user.getDocument().setDocType(docTypeDao.get(view.docCode));
 
         userDao.save(user);
         return new ResultView();

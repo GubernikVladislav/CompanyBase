@@ -62,6 +62,8 @@ public interface MapperFacade {
      */
     User userViewMap(UserView view, Class<User> user);
 
+    void userViewMap(UserView view, User user);
+
     List<DocumentView> mapDocList(List<DocType> docList, Class<DocumentView> view);
 
 }

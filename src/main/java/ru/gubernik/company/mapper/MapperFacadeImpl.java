@@ -64,6 +64,9 @@ public class MapperFacadeImpl implements MapperFacade {
         return mapperFactory.getMapperFacade().map(user, UserView.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User userViewMap(UserView view, Class<User> user) {
         mapperFactory.classMap(UserView.class, User.class)
@@ -78,6 +81,23 @@ public class MapperFacadeImpl implements MapperFacade {
         return mapperFactory.getMapperFacade().map(view, User.class);
     }
 
+    public void userViewMap(UserView view, User user) {
+        mapperFactory.classMap(UserView.class, User.class)
+                .field("docNumber", "document.docNumber")
+                .field("docName", "document.docType.docName")
+                .field("docDate", "document.docDate")
+                .field("docCode", "document.docType.docCode")
+                .field("citizenshipCode", "country.code")
+                .field("citizenshipName", "country.name")
+                .byDefault()
+                .register();
+        mapperFactory.getMapperFacade().map(view, user);
+    }
+
+    /**
+     *{@inheritDoc}
+     */
+    @Override
     public List<DocumentView> mapDocList(List<DocType> docList,Class<DocumentView> view){
 
         mapperFactory.classMap(DocType.class, DocumentView.class)

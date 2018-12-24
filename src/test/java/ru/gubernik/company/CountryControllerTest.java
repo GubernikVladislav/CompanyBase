@@ -19,13 +19,18 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 
+/**
+ * Тестирование контроллера справочника стран
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CompanyBaseApplication.class})
 public class CountryControllerTest {
 
-    RestTemplate restTemplate = new RestTemplate();
-    String url = "http://localhost:8888/api/countries";
+    private RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     * Получение списка стран
+     */
     @Test
     public void countriesTest(){
 
@@ -36,6 +41,7 @@ public class CountryControllerTest {
         ParameterizedTypeReference<DataView<List<CountryView>>> reference =
                 new ParameterizedTypeReference<DataView<List<CountryView>>>(){};
 
+        String url = "http://localhost:8888/api/countries";
         ResponseEntity<DataView<List<CountryView>>> response =
                 restTemplate.exchange(url, HttpMethod.POST, httpEntity, reference);
         Assert.assertNotNull(response);

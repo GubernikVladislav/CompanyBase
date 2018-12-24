@@ -42,4 +42,32 @@ public class UserListRequestView {
      * Гражданство
      */
     public String citizenshipCode;
+
+    public UserListRequestView(){
+
+    }
+
+    public UserListRequestView(Integer officeId, String firstName,
+                               String lastName, String middleName, String position,
+                               String docCode, String citizenshipCode) {
+        this.officeId = officeId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.position = position;
+        this.docCode = docCode;
+        this.citizenshipCode = citizenshipCode;
+    }
+
+    @Override
+    public String toString(){
+        return "{" +
+                "\"officeId\":" + officeId + "," +
+                "\"firstName\":\"" + firstName + "\"," +
+                "\"lastName\":\"" + lastName + "\"," +
+                "\"middleName\":\"" + middleName + "\"," +
+                "\"position\":\"" + position + "\"," +
+                "\"docCode\":\"" + docCode + "\"," +
+                "\"citizenshipCode\":\"" + citizenshipCode + "\"}";
+    }
 }

@@ -15,12 +15,12 @@ import java.util.List;
  * {@inheritDoc}
  */
 @Repository
-public class DocumentDaoImpl implements DocumentDao {
+public class DocTypeDaoImpl implements DocTypeDao {
 
     private final EntityManager entityManager;
 
     @Autowired
-    public DocumentDaoImpl(EntityManager entityManager) {
+    public DocTypeDaoImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
@@ -38,6 +38,17 @@ public class DocumentDaoImpl implements DocumentDao {
         List<DocType> docs = query.getResultList();
 
         return docs;
+    }
+
+    @Override
+    public DocType get(String docCode) {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery(DocType.class);
+        Root<DocType> root = criteriaQuery.from(DocType.class);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("docCode"), docCode));
+        TypedQuery<DocType> query = entityManager.createQuery(criteriaQuery);
+        return query.getSingleResult();
     }
 
 

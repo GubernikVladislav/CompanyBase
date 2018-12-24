@@ -27,7 +27,6 @@ public class UserDaoImpl implements UserDao {
     private CriteriaBuilder criteriaBuilder;
     private CriteriaQuery<User> criteriaQuery;
     private Root<User> root;
-    private List<Predicate> predicates = new ArrayList<>();
 
     @Autowired
     public UserDaoImpl(EntityManager entityManager) {
@@ -44,28 +43,36 @@ public class UserDaoImpl implements UserDao {
         criteriaQuery = criteriaBuilder.createQuery(User.class);
         root = criteriaQuery.from(User.class);
 
+        List<Predicate> predicates = new ArrayList<>();
+
         //Фильтр по офису
         Predicate officePredicate = criteriaBuilder.equal(root.get("office"), officeId);
         predicates.add(officePredicate);
 
         //Фильтр по типу документа
-        documentJoin(docCode);
-
+        if(docCode != null) {
+            predicates.add(documentJoin(docCode));
+        }
         //Фильтр по гражданству
-        countryJoin(citizenshipCode);
-
+        if(citizenshipCode != null) {
+            predicates.add(countryJoin(citizenshipCode));
+        }
         //Фильтр по имени
-        addNotNullPredicate("firstName", user.getFirstName());
-
+        if(user.getFirstName() != null) {
+            predicates.add(addPredicate("firstName", user.getFirstName()));
+        }
         //Фильтр по фамилии
-        addNotNullPredicate("lastName", user.getLastName());
-
+        if(user.getLastName() != null) {
+            predicates.add(addPredicate("lastName", user.getLastName()));
+        }
         //Фильтр по отчеству
-        addNotNullPredicate("middleName", user.getMiddleName());
-
+        if(user.getMiddleName() != null) {
+            predicates.add(addPredicate("middleName", user.getMiddleName()));
+        }
         //Фильтр по должности
-        addNotNullPredicate("position", user.getPosition());
-
+        if(user.getPosition() != null) {
+            predicates.add(addPredicate("position", user.getPosition()));
+        }
         criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 
         TypedQuery<User> query = entityManager.createQuery(criteriaQuery);
@@ -97,15 +104,7 @@ public class UserDaoImpl implements UserDao {
         entityManager.persist(user);
     }
 
-    /**
-     *Выполнение JOIN таблицы справочника стран.
-     * @param citizenshipCode - код гражданства из запроса. Если код null - return
-     */
-    private void countryJoin(String citizenshipCode) {
-
-        if(citizenshipCode == null){
-            return;
-        }
+    private Predicate countryJoin(String citizenshipCode) {
 
         Subquery<Country> countrySubQuery = criteriaQuery.subquery(Country.class);
         Root<User> countryRoot = countrySubQuery.correlate(root);
@@ -115,18 +114,10 @@ public class UserDaoImpl implements UserDao {
         countrySubQuery.where(criteriaBuilder.equal(countryJoin.get("code"), citizenshipCode));
 
         Predicate countyPredicate = criteriaBuilder.exists(countrySubQuery);
-        predicates.add(countyPredicate);
+        return countyPredicate;
     }
 
-    /**
-     * Выполнение JOIN таблицы документов
-     * @param docCode - код документа из запроса. Если код Null - return
-     */
-    private void documentJoin(String docCode) {
-
-        if(docCode == null){
-            return;
-        }
+    private Predicate documentJoin(String docCode) {
 
         Subquery<DocType> docQuery = criteriaQuery.subquery(DocType.class);
         Root<User> subRoot = docQuery.correlate(root);
@@ -137,21 +128,12 @@ public class UserDaoImpl implements UserDao {
         docQuery.where(criteriaBuilder.equal(typeJoin.get("docCode"), docCode));
 
         Predicate docPredicate = criteriaBuilder.exists(docQuery);
-        predicates.add(docPredicate);
+        return docPredicate;
     }
 
-    /**
-     * Добавление к запросу предиката, если он не null
-     * @param column - атрибут по которому проводится поиск
-     * @param value - значение атрибута. Если null - return
-     */
-    private void addNotNullPredicate(String column, String value){
-
-        if(value == null){
-            return;
-        }
+    private Predicate addPredicate(String column, String value){
 
         Predicate predicate = criteriaBuilder.equal(root.get(column), value);
-        predicates.add(predicate);
+        return predicate;
     }
 }

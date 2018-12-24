@@ -3,6 +3,7 @@ package ru.gubernik.company.dao.country;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.gubernik.company.model.Country;
+import ru.gubernik.company.view.country.CountryView;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -38,5 +39,17 @@ public class CountryDaoImpl implements CountryDao {
         List<Country> countries = query.getResultList();
 
         return countries;
+    }
+
+    @Override
+    public Country get(String countryCode) {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Country> criteriaQuery = criteriaBuilder.createQuery(Country.class);
+        Root<Country> root = criteriaQuery.from(Country.class);
+        criteriaQuery.where(criteriaBuilder.equal(root.get("code"), countryCode));
+        TypedQuery<Country> query = entityManager.createQuery(criteriaQuery);
+
+        return query.getSingleResult();
     }
 }
