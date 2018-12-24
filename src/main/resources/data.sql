@@ -1,6 +1,5 @@
 INSERT INTO DOC_TYPE(CODE,NAME) VALUES('08', 'Временное удостоверение, выданное взамен военного билета');
-INSERT INTO DOC_TYPE(CODE,NAME) VALUES('18', 'Свидетельство о предоставлении временного убежища на территории
-Российской Федерации');
+INSERT INTO DOC_TYPE(CODE,NAME) VALUES('18', 'Свидетельство о предоставлении временного убежища на территории Российской Федерации');
 INSERT INTO DOC_TYPE(CODE,NAME) VALUES('21', 'Паспорт гражданина Российской Федерации');
 
 INSERT INTO COUNTRY(CODE, NAME) VALUES('643', 'Российская Федерация');

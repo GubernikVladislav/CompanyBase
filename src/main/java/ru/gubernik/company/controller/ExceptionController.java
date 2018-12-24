@@ -16,7 +16,8 @@ public class ExceptionController {
      * @return представление с текстом ошибки
      */
     @ExceptionHandler
-    public ErrorView pointer(Exception e){
+    public ErrorView checkException(Exception e){
         return new ErrorView(e.getMessage());
     }
+
 }

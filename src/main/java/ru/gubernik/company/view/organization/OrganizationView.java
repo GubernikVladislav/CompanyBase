@@ -1,5 +1,7 @@
 package ru.gubernik.company.view.organization;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -7,6 +9,7 @@ import javax.validation.constraints.Size;
 /**
  * Представление организации в виде JSON
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrganizationView {
 
     /**

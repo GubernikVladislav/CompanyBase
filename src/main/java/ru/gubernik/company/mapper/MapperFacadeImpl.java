@@ -3,7 +3,9 @@ package ru.gubernik.company.mapper;
 import ma.glasnost.orika.MapperFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.gubernik.company.model.DocType;
 import ru.gubernik.company.model.User;
+import ru.gubernik.company.view.document.DocumentView;
 import ru.gubernik.company.view.user.UserView;
 
 import java.util.List;
@@ -76,5 +78,14 @@ public class MapperFacadeImpl implements MapperFacade {
         return mapperFactory.getMapperFacade().map(view, User.class);
     }
 
+    public List<DocumentView> mapDocList(List<DocType> docList,Class<DocumentView> view){
+
+        mapperFactory.classMap(DocType.class, DocumentView.class)
+                .field("docCode", "code")
+                .field("docName", "name")
+                .byDefault()
+                .register();
+        return mapperFactory.getMapperFacade().mapAsList(docList, view);
+    }
 
 }

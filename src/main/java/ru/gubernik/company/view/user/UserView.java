@@ -5,6 +5,9 @@ import ru.gubernik.company.model.Country;
 import ru.gubernik.company.model.Document;
 import ru.gubernik.company.model.Office;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -24,11 +27,14 @@ public class UserView {
     /**
      * Имя
      */
+    @NotNull(message = "firstName cannot be null")
+    @Size(max = 50)
     public String firstName;
 
     /**
      * Фамилия
      */
+    @Size(max = 50)
     public String lastName;
 
     /**
@@ -39,14 +45,17 @@ public class UserView {
     /**
      * Должность
      */
+    @NotNull(message = "position cannot be null")
+    @Size(max = 50)
     public String position;
-    
+
     /**
      * Документ
      */
     @JsonIgnore
     public Document document;
 
+    @Pattern(regexp = "\\d{0,2}", message = "invalid docCode")
     public String docCode;
 
     /**
@@ -57,6 +66,8 @@ public class UserView {
     /**
      * Номер документа
      */
+    @Size(max = 20)
+    @Pattern(regexp = "\\d{0,20}", message = "invalid docNumber")
     public String docNumber;
 
     /**

@@ -13,6 +13,7 @@ public class OfficeView {
      */
     public Integer id;
 
+    @NotNull(message = "orgId cannot be null")
     public Integer orgId;
     /**
      * Наименование оффиса
@@ -36,13 +37,26 @@ public class OfficeView {
      */
     public Boolean isActive;
 
+    public OfficeView(){
+
+    }
+
+    public OfficeView(Integer orgId, String name, String address, String phone, Boolean isActive) {
+        this.orgId = orgId;
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.isActive = isActive;
+    }
+
     @Override
     public String toString(){
-        return "{id:" + id +
-                ";name:" + name +
-                ";address:" + address +
-                ";phone:" + phone +
-                ";is_active:" + isActive +
+        return "{\"id\":" + id +
+                ",\"orgId\":" + orgId +
+                ",\"name\":" + "\"" + name + "\"" +
+                ",\"address\":" + "\"" + address + "\"" +
+                ",\"phone\":" + "\"" + phone + "\"" +
+                ",\"isActive\":" + isActive +
                 "}";
     }
 

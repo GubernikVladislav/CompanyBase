@@ -1,5 +1,6 @@
 package ru.gubernik.company.controller.organization;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -7,8 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.gubernik.company.service.organization.OrganizationService;
-import ru.gubernik.company.view.source.DataView;
+import ru.gubernik.company.view.organization.Views;
+import ru.gubernik.company.view.organization.OrganizationListView;
 import ru.gubernik.company.view.organization.OrganizationView;
+import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
 
 import javax.validation.constraints.Min;
@@ -38,8 +41,8 @@ public class OrganizationControllerImpl implements OrganizationController {
      */
     @Override
     @RequestMapping(value = "/list", method = {POST})
-    public DataView organizations(){
-        return organizationService.organizations();
+    public DataView organizations(@RequestBody OrganizationListView organizationListView){
+        return organizationService.organizations(organizationListView);
     }
 
     /**

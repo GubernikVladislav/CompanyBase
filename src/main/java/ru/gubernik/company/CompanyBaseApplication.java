@@ -9,4 +9,5 @@ public class CompanyBaseApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CompanyBaseApplication.class, args);
 	}
+
 }

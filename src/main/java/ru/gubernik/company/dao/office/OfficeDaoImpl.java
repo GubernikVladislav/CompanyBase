@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,18 +44,21 @@ public class OfficeDaoImpl implements OfficeDao {
         Predicate namePredicate = criteriaBuilder.equal(root.get("name"), office.getName());
         Predicate phonePredicate = criteriaBuilder.equal(root.get("phone"), office.getPhone());
         Predicate activePredicate = criteriaBuilder.equal(root.get("isActive"), office.getIsActive());
+        List<Predicate> predicates = new ArrayList<>();
 
-        //Доюавление not null предикатов в запрос
-        criteriaQuery.where(predicate);
+        predicates.add(predicate);
+
+        //Добавление not null предикатов в запрос
         if(office.getName() != null) {
-            criteriaQuery.where(namePredicate);
+            predicates.add(namePredicate);
         }
         if(office.getPhone() != null){
-            criteriaQuery.where(phonePredicate);
+            predicates.add(phonePredicate);
         }
         if(office.getIsActive() != null){
-            criteriaQuery.where(activePredicate);
+            predicates.add(activePredicate);
         }
+        criteriaQuery.where(predicates.toArray(new Predicate[predicates.size()]));
 
         TypedQuery<Office> query = entityManager.createQuery(criteriaQuery);
         return query.getResultList();

@@ -1,6 +1,7 @@
 package ru.gubernik.company.service.organization;
 
 import org.springframework.validation.annotation.Validated;
+import ru.gubernik.company.view.organization.OrganizationListView;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.organization.OrganizationView;
 import ru.gubernik.company.view.source.ResultView;
@@ -40,5 +41,5 @@ public interface OrganizationService {
      * Получить список организаций
      * @return List список всех организаций
      */
-    DataView organizations();
+    DataView organizations(OrganizationListView organizationListView);
 }

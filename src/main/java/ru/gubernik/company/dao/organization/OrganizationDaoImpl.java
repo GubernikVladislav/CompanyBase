@@ -29,11 +29,25 @@ public class OrganizationDaoImpl implements OrganizationDao {
      * {@inheritDoc}
      */
     @Override
-    public List<Organization> all() {
+    public List<Organization> all(Organization organization) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Organization> criteriaQuery = criteriaBuilder.createQuery(Organization.class);
-        Root<Organization> organization = criteriaQuery.from(Organization.class);
-        criteriaQuery.select(organization);
+        Root<Organization> root = criteriaQuery.from(Organization.class);
+        criteriaQuery.select(root);
+
+        //Фильтр по наименованию
+        if(organization.getName() != null) {
+            criteriaQuery.where(criteriaBuilder.equal(root.get("name"), organization.getName()));
+        }
+        //Фильтр по ИНН
+        if(organization.getInn() != null){
+            criteriaQuery.where(criteriaBuilder.equal(root.get("inn"), organization.getInn()));
+        }
+        //Фильтр по статусу
+        if(organization.getIsActive() != null){
+            criteriaQuery.where(criteriaBuilder.equal(root.get("isActive"), organization.getIsActive()));
+        }
+
         TypedQuery<Organization> query = entityManager.createQuery(criteriaQuery);
 
         return query.getResultList();

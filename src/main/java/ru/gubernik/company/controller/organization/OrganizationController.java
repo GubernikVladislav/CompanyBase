@@ -1,5 +1,7 @@
 package ru.gubernik.company.controller.organization;
 
+import org.springframework.web.bind.annotation.RequestBody;
+import ru.gubernik.company.view.organization.OrganizationListView;
 import ru.gubernik.company.view.source.DataView;
 import ru.gubernik.company.view.source.ResultView;
 import ru.gubernik.company.view.organization.OrganizationView;
@@ -18,7 +20,7 @@ public interface OrganizationController {
      * Получить список всех организаций
      * @return List список организаций
      */
-    DataView organizations();
+    DataView organizations(OrganizationListView organizationListView);
 
     /**
      * Получить организацию по id

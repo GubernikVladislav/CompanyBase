@@ -16,7 +16,7 @@ public interface OrganizationDao {
      * Получить список организаций
      * @return List список организаций
      */
-    List<Organization> all();
+    List<Organization> all(Organization organization);
 
     /**
      * Получить организацю по id

@@ -5,9 +5,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -31,7 +33,6 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CompanyBaseApplication.class})
-@DirtiesContext
 @Transactional
 public class OrganizationControllerTest {
 
@@ -46,11 +47,13 @@ public class OrganizationControllerTest {
 
         OrganizationView request =
                 new OrganizationView(null, "test", "TestTest", "123456777890",
-                        "123456788", "adress", "9166987731", true);
+                        "123456788", "address", "9166987731", false);
 
         ResponseEntity response = restTemplate.postForEntity(url + "/organization/save", request, ResultView.class);
         assertNotNull(response);
         assertEquals(200, response.getStatusCodeValue());
+
+        request.id = getId(new OrganizationListView(request.name, request.inn, request.isActive));
 
         getTest(request);
 
@@ -62,20 +65,26 @@ public class OrganizationControllerTest {
     @Test
     public void errorSaveTest() {
         //Добавление пустой организации
-        OrganizationView request = new OrganizationView();
-        ResponseEntity response = restTemplate.postForEntity(url + "/organization/save", request, ErrorView.class);
-        assertNotNull(response);
-        assertEquals(response.getStatusCodeValue(), 200);
-        ErrorView error = (ErrorView) response.getBody();
-        assertThat(error.error, containsString("cannot be null"));
+        OrganizationView nullRequest = new OrganizationView();
+
+        ResponseEntity nullResponse = restTemplate.postForEntity(url + "/organization/save", nullRequest, ErrorView.class);
+        assertNotNull(nullResponse);
+        assertEquals(nullResponse.getStatusCodeValue(), 200);
+
+        ErrorView nullError = (ErrorView) nullResponse.getBody();
+        assertNotNull(nullError);
+        assertThat(nullError.error, containsString("cannot be null"));
 
         //Добавление организации с буквами в ИНН и КПП
-        request = new OrganizationView(null, "test", "TestTest", "123456777u90", "111u11111", "adress", null, true);
-        response = restTemplate.postForEntity(url + "/organization/save", request, ErrorView.class);
-        assertNotNull(response);
-        assertEquals(response.getStatusCodeValue(), 200);
-        error = (ErrorView) response.getBody();
-        assertThat(error.error, containsString("only numbers"));
+        OrganizationView badRequest = new OrganizationView(null, "test", "TestTest", "123456777u90", "111u11111", "adress", null, true);
+
+        ResponseEntity badResponse = restTemplate.postForEntity(url + "/organization/save", badRequest, ErrorView.class);
+        assertNotNull(badResponse);
+        assertEquals(badResponse.getStatusCodeValue(), 200);
+
+        ErrorView badError = (ErrorView) badResponse.getBody();
+        assertNotNull(badError);
+        assertThat(badError.error, containsString("only numbers"));
     }
 
     /**
@@ -86,7 +95,7 @@ public class OrganizationControllerTest {
 
         OrganizationView organization =
                 new OrganizationView(2, "testUPD", "testTestUPD", "111111111111",
-                        "111111111","testAddresUPD", "7916698773", false);
+                        "111111111","testAddressUPD", "7916698773", false);
 
         ResponseEntity<ResultView> result = restTemplate.postForEntity(url + "/organization/update", organization, ResultView.class);
         assertNotNull(result);
@@ -101,13 +110,13 @@ public class OrganizationControllerTest {
     public void ignoreNullUpdateTest(){
         OrganizationView organization =
                 new OrganizationView(2, "testUPD2", "testTestUPD2", "111111111111",
-                        "111111111","testAddresUPD2", null, false);
+                        "111111111","testAddressUPD2", null, false);
 
         ResponseEntity<ResultView> result = restTemplate.postForEntity(url + "/organization/update", organization, ResultView.class);
         assertNotNull(result);
 
         getTest(new OrganizationView(2, "testUPD2", "testTestUPD2", "111111111111",
-                        "111111111","testAddresUPD2", "7916698773", false));
+                        "111111111","testAddressUPD2", "7916698773", false));
 
     }
 
@@ -117,15 +126,23 @@ public class OrganizationControllerTest {
     @Test
     public void listTest(){
 
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> httpEntity =
+                new HttpEntity<>("{}", headers);
+
         ParameterizedTypeReference<DataView<List<OrganizationListView>>> reference =
                 new ParameterizedTypeReference<DataView<List<OrganizationListView>>>(){};
 
-        ResponseEntity<DataView<List<OrganizationListView>>> response = restTemplate.exchange(url + "/organization/list", HttpMethod.POST, null, reference);
+        ResponseEntity<DataView<List<OrganizationListView>>> response = restTemplate.exchange(url + "/organization/list", HttpMethod.POST, httpEntity, reference);
         assertNotNull(response);
 
         DataView<List<OrganizationListView>> dataView = response.getBody();
-        assertThat(dataView.data.get(0).id, is(1));
-        assertThat(dataView.data.get(1).id, is(2));
+        assertNotNull(dataView);
+        assertThat(dataView.data.get(0).id, is(getId(dataView.data.get(0))));
+        assertThat(dataView.data.get(1).id, is(getId(dataView.data.get(1))));
+
     }
     /**
      * Получение по идентификатору
@@ -136,12 +153,13 @@ public class OrganizationControllerTest {
         ParameterizedTypeReference<DataView<OrganizationView>> reference =
                 new ParameterizedTypeReference<DataView<OrganizationView>>(){};
 
-        ResponseEntity<DataView<OrganizationView>> response = restTemplate.exchange(url + "/organization/2", HttpMethod.GET, null,reference );
+        ResponseEntity<DataView<OrganizationView>> response =
+                restTemplate.exchange(url + "/organization/" + organization.id, HttpMethod.GET, null,reference );
         Assert.assertNotNull(response);
 
         DataView<OrganizationView> responseData = response.getBody();
         assertNotNull(responseData);
-        assertThat(responseData.data.id, is(2));
+        assertThat(responseData.data.id, is(organization.id));
         assertThat(responseData.data.name, is(organization.name));
         assertThat(responseData.data.fullName, is(organization.fullName));
         assertThat(responseData.data.inn, is(organization.inn));
@@ -151,4 +169,32 @@ public class OrganizationControllerTest {
         assertThat(responseData.data.isActive, is(organization.isActive));
 
     }
+
+    /**
+     * Получение идентификатора организации из списка по фильтру
+     * @param view - фильтр
+     * @return id - идентификатор организации
+     */
+    public Integer getId(OrganizationListView view){
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> httpEntity =
+                new HttpEntity<>("{ \"name\":" + "\"" + view.name + "\"," +
+                        " \"inn\":" + "\"" + view.inn + "\", \"isActive\":"  + view.isActive + "}", headers);
+
+        ParameterizedTypeReference<DataView<List<OrganizationListView>>> reference =
+                new ParameterizedTypeReference<DataView<List<OrganizationListView>>>(){};
+
+        ResponseEntity<DataView<List<OrganizationListView>>> response = restTemplate.exchange(url + "/organization/list", HttpMethod.POST, httpEntity, reference);
+        assertNotNull(response);
+
+        DataView<List<OrganizationListView>> dataView = response.getBody();
+        if(dataView.data.size() == 1) {
+            Integer id = dataView.data.get(0).id;
+            return id;
+        }
+        return null;
+    }
+
 }
