@@ -103,9 +103,11 @@ public class OfficeControllerTest {
 
         ResponseEntity<DataView<OfficeView>> response = restTemplate.exchange(url + "/" + view.id,HttpMethod.GET,null, reference);
         assertNotNull(response);
+        assertNotNull(response.getBody());
 
         DataView<OfficeView> responseData = response.getBody();
         assertNotNull(responseData);
+        assertNotNull(responseData.data);
 
         assertThat(responseData.data.id, is(view.id));
         assertThat(responseData.data.orgId, is(view.orgId));
@@ -124,8 +126,7 @@ public class OfficeControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String body = view.toString();
-        HttpEntity<String> httpEntity = new HttpEntity<>(body, headers);
+        HttpEntity<OfficeView> httpEntity = new HttpEntity<>(view, headers);
 
         ParameterizedTypeReference<DataView<List<OfficeListView>>> reference =
                 new ParameterizedTypeReference<DataView<List<OfficeListView>>>(){};
@@ -133,9 +134,11 @@ public class OfficeControllerTest {
         ResponseEntity<DataView<List<OfficeListView>>> response =
                 restTemplate.exchange(url + "/list", HttpMethod.POST, httpEntity, reference);
         assertNotNull(response);
+        assertNotNull(response.getBody());
 
         DataView<List<OfficeListView>> data = response.getBody();
         assertNotNull(data);
+        assertNotNull(data.data);
 
         Integer id = data.data.get(0).id;
         return id;

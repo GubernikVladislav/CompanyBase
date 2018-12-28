@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +23,7 @@ import ru.gubernik.company.view.source.ResultView;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -34,6 +36,7 @@ import static org.junit.Assert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {CompanyBaseApplication.class})
 @Transactional
+@DirtiesContext
 public class OrganizationControllerTest {
 
     RestTemplate restTemplate = new RestTemplate();
@@ -129,19 +132,23 @@ public class OrganizationControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> httpEntity =
-                new HttpEntity<>("{}", headers);
+        HttpEntity<OrganizationListView> httpEntity =
+                new HttpEntity<>(new OrganizationListView(), headers);
 
         ParameterizedTypeReference<DataView<List<OrganizationListView>>> reference =
                 new ParameterizedTypeReference<DataView<List<OrganizationListView>>>(){};
 
         ResponseEntity<DataView<List<OrganizationListView>>> response = restTemplate.exchange(url + "/organization/list", HttpMethod.POST, httpEntity, reference);
         assertNotNull(response);
+        assertNotNull(response.getBody());
 
         DataView<List<OrganizationListView>> dataView = response.getBody();
         assertNotNull(dataView);
-        assertThat(dataView.data.get(0).id, is(getId(dataView.data.get(0))));
-        assertThat(dataView.data.get(1).id, is(getId(dataView.data.get(1))));
+        assertNotNull(dataView.data);
+
+        for(OrganizationListView view : dataView.data){
+            assertEquals(view.id, getId(view));
+        }
 
     }
     /**
@@ -155,10 +162,14 @@ public class OrganizationControllerTest {
 
         ResponseEntity<DataView<OrganizationView>> response =
                 restTemplate.exchange(url + "/organization/" + organization.id, HttpMethod.GET, null,reference );
-        Assert.assertNotNull(response);
+        assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertThat(response.getBody().data, instanceOf(OrganizationView.class));
 
         DataView<OrganizationView> responseData = response.getBody();
         assertNotNull(responseData);
+        assertNotNull(responseData.data);
+
         assertThat(responseData.data.id, is(organization.id));
         assertThat(responseData.data.name, is(organization.name));
         assertThat(responseData.data.fullName, is(organization.fullName));
@@ -179,22 +190,23 @@ public class OrganizationControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> httpEntity =
-                new HttpEntity<>("{ \"name\":" + "\"" + view.name + "\"," +
-                        " \"inn\":" + "\"" + view.inn + "\", \"isActive\":"  + view.isActive + "}", headers);
+        HttpEntity<OrganizationListView> httpEntity =
+                new HttpEntity<>(view, headers);
 
         ParameterizedTypeReference<DataView<List<OrganizationListView>>> reference =
                 new ParameterizedTypeReference<DataView<List<OrganizationListView>>>(){};
 
         ResponseEntity<DataView<List<OrganizationListView>>> response = restTemplate.exchange(url + "/organization/list", HttpMethod.POST, httpEntity, reference);
         assertNotNull(response);
+        assertNotNull(response.getBody());
 
         DataView<List<OrganizationListView>> dataView = response.getBody();
-        if(dataView.data.size() == 1) {
-            Integer id = dataView.data.get(0).id;
-            return id;
-        }
-        return null;
+        assertNotNull(dataView);
+        assertThat(dataView.data.size(), is(1));
+
+        Integer id = dataView.data.get(0).id;
+
+        return id;
     }
 
 }

@@ -22,7 +22,9 @@ import ru.gubernik.company.view.user.UserView;
 import java.text.ParseException;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -54,7 +56,7 @@ public class UserControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity httpEntity = new HttpEntity(request.toString(), headers);
+        HttpEntity httpEntity = new HttpEntity(request, headers);
 
                 ResponseEntity<ResultView> response = restTemplate.exchange(url + "/save", HttpMethod.POST,httpEntity, ResultView.class);
         assertNotNull(response);
@@ -78,7 +80,7 @@ public class UserControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity saveEntity = new HttpEntity(saveRequest.toString(), headers);
+        HttpEntity saveEntity = new HttpEntity(saveRequest, headers);
 
         ResponseEntity<ResultView> saveResponse =
                 restTemplate.exchange(url + "/save", HttpMethod.POST,saveEntity, ResultView.class);
@@ -95,7 +97,7 @@ public class UserControllerTest {
                         "643", true );
         updateRequest.id = saveRequest.id;
 
-        HttpEntity updateEntity = new HttpEntity(updateRequest.toString(), headers);
+        HttpEntity updateEntity = new HttpEntity(updateRequest, headers);
 
         ResponseEntity<ResultView> response =
                 restTemplate.exchange(url + "/update", HttpMethod.POST,updateEntity, ResultView.class);
@@ -117,8 +119,13 @@ public class UserControllerTest {
         ResponseEntity<DataView<UserView>> response =
                 restTemplate.exchange(url + "/" + view.id, HttpMethod.GET, null, reference);
         assertNotNull(response);
+        assertNotNull(response.getBody());
+        assertThat(response.getBody().data, instanceOf(UserView.class));
+
         DataView<UserView> responseData = response.getBody();
         assertNotNull(responseData);
+        assertNotNull(responseData.data);
+
         assertThat(responseData.data.id, is(view.id));
         assertThat(responseData.data.firstName, is(view.firstName));
         assertThat(responseData.data.lastName, is(view.lastName));
@@ -142,7 +149,7 @@ public class UserControllerTest {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity httpEntity = new HttpEntity(request.toString(), headers);
+        HttpEntity httpEntity = new HttpEntity(request, headers);
 
         ParameterizedTypeReference<DataView<List<UserListView>>> reference =
                 new ParameterizedTypeReference<DataView<List<UserListView>>>(){};
@@ -150,9 +157,12 @@ public class UserControllerTest {
         ResponseEntity<DataView<List<UserListView>>> response =
                 restTemplate.exchange(url + "/list", HttpMethod.POST, httpEntity, reference);
         assertNotNull(response);
+        assertNotNull(response.getBody());
 
         DataView<List<UserListView>> responseData = response.getBody();
         assertNotNull(responseData);
+        assertNotNull(responseData.data);
+        assertEquals(responseData.data.size(), 1);
 
         return responseData.data.get(0).id;
     }
